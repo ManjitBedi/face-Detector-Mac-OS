@@ -28,5 +28,7 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera is used for doing face detection</string>
 </dict>
 </plist>
