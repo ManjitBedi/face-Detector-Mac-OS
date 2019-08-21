@@ -11,6 +11,10 @@ import AVFoundation
 import AVKit
 import Vision
 
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseAuth
+
 class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     @IBOutlet weak var cameraView: NSView!
@@ -45,7 +49,10 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         self.prepareVisionRequest()
 
         self.session?.startRunning()
+
+        signIn()
     }
+
 
     override var representedObject: Any? {
         didSet {
@@ -83,6 +90,7 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
                 try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice!))
                 previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
                 previewLayer?.frame = (self.cameraView.layer?.frame)!
+                previewLayer?.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
 
                 // Add previewLayer into custom view
                 self.cameraView.layer?.addSublayer(previewLayer!)
@@ -297,6 +305,7 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         overlayLayer.anchorPoint = normalizedCenterPoint
         overlayLayer.bounds = captureDeviceBounds
         overlayLayer.position = CGPoint(x: rootLayer.bounds.midX, y: rootLayer.bounds.midY)
+        overlayLayer.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
 
         let faceRectangleShapeLayer = CAShapeLayer()
         faceRectangleShapeLayer.name = "RectangleOutlineLayer"
@@ -341,20 +350,21 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
         CATransaction.setValue(NSNumber(value: true), forKey: kCATransactionDisableActions)
 
+        // iOS specific code
         // let videoPreviewRect = previewLayer.layerRectConverted(fromMetadataOutputRect: CGRect(x: 0, y: 0, width: 1, height: 1))
 
-        // let videoPreviewRect = previewLayer.frame
+         let videoPreviewRect = previewLayer.frame
 
-//        var scaleX: CGFloat
-//        var scaleY: CGFloat
-//
-//        scaleX = videoPreviewRect.width / captureDeviceResolution.width
-//        scaleY = videoPreviewRect.height / captureDeviceResolution.height
+        var scaleX: CGFloat
+        var scaleY: CGFloat
 
-//        // Scale and mirror the image to ensure upright presentation.
-//        let affineTransform = CGAffineTransform(rotationAngle: radiansForDegrees(rotation))
-//            .scaledBy(x: scaleX, y: -scaleY)
-//        overlayLayer.setAffineTransform(affineTransform)
+        scaleX = videoPreviewRect.width / captureDeviceResolution.width
+        scaleY = videoPreviewRect.height / captureDeviceResolution.height
+
+        // Scale and mirror the image to ensure upright presentation.
+        let affineTransform = CGAffineTransform(rotationAngle: 0)
+            .scaledBy(x: scaleX, y: scaleY)
+        overlayLayer.setAffineTransform(affineTransform)
 
         // Cover entire screen UI.
         let rootLayerBounds = rootLayer.bounds
@@ -553,6 +563,25 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
                 NSLog("Failed to perform FaceLandmarkRequest: %@", error)
             }
         }
+    }
+
+    // Firebase
+
+    func signIn() {
+        Auth.auth().signIn(withEmail: "info@jakelaffoley.co.uk", password: "biomexit123") { [weak self] user, error in
+            guard let strongSelf = self else { return }
+            // ...
+            print("logged into Firebase")
+            uploadTestImage()
+        }
+    }
+
+    func uploadImage() {
+
+    }
+
+    func uploadTestImage() {
+        uploadImage()
     }
 }
 

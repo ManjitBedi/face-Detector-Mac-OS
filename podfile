@@ -1,0 +1,10 @@
+source 'https://github.com/CocoaPods/Specs.git'
+platform :osx, '10.14'
+use_frameworks!
+
+
+target 'Face Detector' do
+    pod 'FirebaseCore', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :branch => 'master'
+    pod 'FirebaseFirestore', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :branch => 'master'
+    pod 'FirebaseAuth', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :branch => 'master'
+end

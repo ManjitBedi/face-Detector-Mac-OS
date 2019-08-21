@@ -1,0 +1,147 @@
+PODS:
+  - BoringSSL-GRPC (0.0.3):
+    - BoringSSL-GRPC/Implementation (= 0.0.3)
+    - BoringSSL-GRPC/Interface (= 0.0.3)
+  - BoringSSL-GRPC/Implementation (0.0.3):
+    - BoringSSL-GRPC/Interface (= 0.0.3)
+  - BoringSSL-GRPC/Interface (0.0.3)
+  - FirebaseAuth (6.2.2):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.2)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseAuthInterop (1.0.0)
+  - FirebaseCore (6.2.0):
+    - FirebaseCoreDiagnostics (~> 1.0)
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnostics (1.0.1):
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleDataTransportCCTSupport (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnosticsInterop (1.0.0)
+  - FirebaseFirestore (1.4.3):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.2)
+    - FirebaseFirestore/abseil-cpp (= 1.4.3)
+    - "gRPC-C++ (= 0.0.9)"
+    - leveldb-library (~> 1.22)
+    - nanopb (~> 0.3.901)
+    - Protobuf (~> 3.1)
+  - FirebaseFirestore/abseil-cpp (1.4.3):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.2)
+    - "gRPC-C++ (= 0.0.9)"
+    - leveldb-library (~> 1.22)
+    - nanopb (~> 0.3.901)
+    - Protobuf (~> 3.1)
+  - GoogleDataTransport (1.1.1)
+  - GoogleDataTransportCCTSupport (1.0.1):
+    - GoogleDataTransport (~> 1.1)
+    - nanopb
+  - GoogleUtilities/AppDelegateSwizzler (6.2.5):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.2.5)
+  - GoogleUtilities/Logger (6.2.5):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/Network (6.2.5):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.2.5)"
+  - GoogleUtilities/Reachability (6.2.5):
+    - GoogleUtilities/Logger
+  - "gRPC-C++ (0.0.9)":
+    - "gRPC-C++/Implementation (= 0.0.9)"
+    - "gRPC-C++/Interface (= 0.0.9)"
+  - "gRPC-C++/Implementation (0.0.9)":
+    - "gRPC-C++/Interface (= 0.0.9)"
+    - gRPC-Core (= 1.21.0)
+    - nanopb (~> 0.3)
+  - "gRPC-C++/Interface (0.0.9)"
+  - gRPC-Core (1.21.0):
+    - gRPC-Core/Implementation (= 1.21.0)
+    - gRPC-Core/Interface (= 1.21.0)
+  - gRPC-Core/Implementation (1.21.0):
+    - BoringSSL-GRPC (= 0.0.3)
+    - gRPC-Core/Interface (= 1.21.0)
+    - nanopb (~> 0.3)
+  - gRPC-Core/Interface (1.21.0)
+  - GTMSessionFetcher/Core (1.2.2)
+  - leveldb-library (1.22)
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
+  - Protobuf (3.9.0)
+
+DEPENDENCIES:
+  - FirebaseAuth (from `https://github.com/firebase/firebase-ios-sdk.git`, branch `master`)
+  - FirebaseCore (from `https://github.com/firebase/firebase-ios-sdk.git`, branch `master`)
+  - FirebaseFirestore (from `https://github.com/firebase/firebase-ios-sdk.git`, branch `master`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - BoringSSL-GRPC
+    - FirebaseAuthInterop
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
+    - GoogleDataTransport
+    - GoogleDataTransportCCTSupport
+    - GoogleUtilities
+    - "gRPC-C++"
+    - gRPC-Core
+    - GTMSessionFetcher
+    - leveldb-library
+    - nanopb
+    - Protobuf
+
+EXTERNAL SOURCES:
+  FirebaseAuth:
+    :branch: master
+    :git: https://github.com/firebase/firebase-ios-sdk.git
+  FirebaseCore:
+    :branch: master
+    :git: https://github.com/firebase/firebase-ios-sdk.git
+  FirebaseFirestore:
+    :branch: master
+    :git: https://github.com/firebase/firebase-ios-sdk.git
+
+CHECKOUT OPTIONS:
+  FirebaseAuth:
+    :commit: d99c6c307d57af41d9da26a3288724522869a9a3
+    :git: https://github.com/firebase/firebase-ios-sdk.git
+  FirebaseCore:
+    :commit: d99c6c307d57af41d9da26a3288724522869a9a3
+    :git: https://github.com/firebase/firebase-ios-sdk.git
+  FirebaseFirestore:
+    :commit: d99c6c307d57af41d9da26a3288724522869a9a3
+    :git: https://github.com/firebase/firebase-ios-sdk.git
+
+SPEC CHECKSUMS:
+  BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
+  FirebaseAuth: 2be1924ddbc741fe2a02cb6963ca747e09a2e05c
+  FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
+  FirebaseCore: 8c9e08bce0c72a3affd83927d8184cf244918bc8
+  FirebaseCoreDiagnostics: 4c04ae09d0ab027c30179828c6bb47764df1bd13
+  FirebaseCoreDiagnosticsInterop: 6829da2b8d1fc795ff1bd99df751d3788035d2cb
+  FirebaseFirestore: 3624136a38db01840f739014ff70a959fe88be05
+  GoogleDataTransport: ffbadce4ab93c88fb9dd8e6366c47bfcb4a32193
+  GoogleDataTransportCCTSupport: 3451e7d8ba19093e533362a6d78d6d9014c6a037
+  GoogleUtilities: e7dc37039b19df7fe543479d3e4a02ac8d11bb69
+  "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83
+  gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
+  GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
+  leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
+
+PODFILE CHECKSUM: bce57934230a0374ece2ec2d53311f343a852f6a
+
+COCOAPODS: 1.7.4

@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08356EA90966DF288D174C17 /* Pods_Face_Detector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C3D39745ABC9776FF25A03 /* Pods_Face_Detector.framework */; };
+		78838B39230DB466009A2BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78838B38230DB466009A2BF9 /* GoogleService-Info.plist */; };
 		78C61664230C9883009829DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C61663230C9883009829DB /* AppDelegate.swift */; };
 		78C61666230C9883009829DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C61665230C9883009829DB /* ViewController.swift */; };
 		78C61668230C9886009829DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78C61667230C9886009829DB /* Assets.xcassets */; };
@@ -36,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3C69AD10BA218E333A991962 /* Pods-Face Detector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Face Detector.release.xcconfig"; path = "Target Support Files/Pods-Face Detector/Pods-Face Detector.release.xcconfig"; sourceTree = "<group>"; };
+		6F091BCC8C5C44F9013A422B /* Pods-Face Detector.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Face Detector.debug.xcconfig"; path = "Target Support Files/Pods-Face Detector/Pods-Face Detector.debug.xcconfig"; sourceTree = "<group>"; };
+		78838B38230DB466009A2BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		78C61660230C9883009829DB /* Face Detector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Face Detector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C61663230C9883009829DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78C61665230C9883009829DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -52,6 +57,7 @@
 		78C61690230C99D1009829DB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		78C61692230C99D8009829DB /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = SDKROOT; };
 		78C61694230CA2FD009829DB /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		A5C3D39745ABC9776FF25A03 /* Pods_Face_Detector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Face_Detector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,7 @@
 				78C61695230CA2FD009829DB /* AVKit.framework in Frameworks */,
 				78C61693230C99D8009829DB /* Vision.framework in Frameworks */,
 				78C61691230C99D1009829DB /* AVFoundation.framework in Frameworks */,
+				08356EA90966DF288D174C17 /* Pods_Face_Detector.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +97,7 @@
 				78C61680230C9886009829DB /* Face DetectorUITests */,
 				78C61661230C9883009829DB /* Products */,
 				78C6168F230C99D1009829DB /* Frameworks */,
+				8C984201CF779AFDF8A49B17 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,6 +119,7 @@
 				78C61667230C9886009829DB /* Assets.xcassets */,
 				78C61669230C9886009829DB /* Main.storyboard */,
 				78C6166C230C9886009829DB /* Info.plist */,
+				78838B38230DB466009A2BF9 /* GoogleService-Info.plist */,
 				78C6166D230C9886009829DB /* Face_Detector.entitlements */,
 			);
 			path = "Face Detector";
@@ -140,8 +149,18 @@
 				78C61694230CA2FD009829DB /* AVKit.framework */,
 				78C61692230C99D8009829DB /* Vision.framework */,
 				78C61690230C99D1009829DB /* AVFoundation.framework */,
+				A5C3D39745ABC9776FF25A03 /* Pods_Face_Detector.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8C984201CF779AFDF8A49B17 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6F091BCC8C5C44F9013A422B /* Pods-Face Detector.debug.xcconfig */,
+				3C69AD10BA218E333A991962 /* Pods-Face Detector.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,9 +170,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 78C61686230C9886009829DB /* Build configuration list for PBXNativeTarget "Face Detector" */;
 			buildPhases = (
+				F6FBF170CE8923D01CFD5784 /* [CP] Check Pods Manifest.lock */,
 				78C6165C230C9883009829DB /* Sources */,
 				78C6165D230C9883009829DB /* Frameworks */,
 				78C6165E230C9883009829DB /* Resources */,
+				88D3F619040878E088B20160 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -250,6 +271,7 @@
 			files = (
 				78C61668230C9886009829DB /* Assets.xcassets in Resources */,
 				78C6166B230C9886009829DB /* Main.storyboard in Resources */,
+				78838B39230DB466009A2BF9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +290,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		88D3F619040878E088B20160 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Face Detector/Pods-Face Detector-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Face Detector/Pods-Face Detector-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Face Detector/Pods-Face Detector-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F6FBF170CE8923D01CFD5784 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Face Detector-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		78C6165C230C9883009829DB /* Sources */ = {
@@ -439,6 +503,7 @@
 		};
 		78C61687230C9886009829DB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F091BCC8C5C44F9013A422B /* Pods-Face Detector.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -458,6 +523,7 @@
 		};
 		78C61688230C9886009829DB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C69AD10BA218E333A991962 /* Pods-Face Detector.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
