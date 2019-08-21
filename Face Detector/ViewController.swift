@@ -96,28 +96,18 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
     }
 
     @IBAction func uploadVideoFrame(_ sender: Any) {
+        let stillImageOutput = AVCaptureStillImageOutput.init()
+        stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecType.jpeg]
+        session!.addOutput(stillImageOutput)
 
-//        guard let videoFrame = detectionOverlayLayer?.image() else {
-//            return
-//        }
-
-        let captureView = cameraView
-        let newRect = NSMakeRect(0, 0, (captureView?.bounds.width)!, (captureView?.bounds.height)! )
-        let rep = captureView?.bitmapImageRepForCachingDisplay(in: newRect)
-        captureView?.cacheDisplay(in:newRect, to: rep!)
-
-        // make the image - tried to resize here
-        let imgSize = NSMakeSize((captureView?.bounds.width)! * CGFloat(0.3), (captureView?.bounds.height)! * CGFloat(0.3) )
-        let img = NSImage(size: imgSize)
-        img.addRepresentation(rep!)
-        
-        guard let tiff = img.tiffRepresentation,
-            let imageRep = NSBitmapImageRep(data: tiff) else {
-                return
+        if let videoConnection = stillImageOutput.connection(with:AVMediaType.video){
+            stillImageOutput.captureStillImageAsynchronously(from:videoConnection, completionHandler: {
+                (sampleBuffer, error) in
+                if let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer!) {
+                    self.uploadImageToFirebase(data: imageData)
+                }
+            })
         }
-
-        let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
-        uploadImageToFirebase(data: compressedData)
     }
 
     // MARK: AVCapture Setup
