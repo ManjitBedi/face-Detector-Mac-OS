@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		08356EA90966DF288D174C17 /* Pods_Face_Detector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C3D39745ABC9776FF25A03 /* Pods_Face_Detector.framework */; };
+		78318711230E0D68009D7A0A /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78318710230E0D68009D7A0A /* CALayer.swift */; };
+		78318713230E0DBA009D7A0A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78318712230E0DBA009D7A0A /* Utils.swift */; };
 		78838B39230DB466009A2BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78838B38230DB466009A2BF9 /* GoogleService-Info.plist */; };
 		78C61664230C9883009829DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C61663230C9883009829DB /* AppDelegate.swift */; };
 		78C61666230C9883009829DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C61665230C9883009829DB /* ViewController.swift */; };
@@ -40,6 +42,8 @@
 /* Begin PBXFileReference section */
 		3C69AD10BA218E333A991962 /* Pods-Face Detector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Face Detector.release.xcconfig"; path = "Target Support Files/Pods-Face Detector/Pods-Face Detector.release.xcconfig"; sourceTree = "<group>"; };
 		6F091BCC8C5C44F9013A422B /* Pods-Face Detector.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Face Detector.debug.xcconfig"; path = "Target Support Files/Pods-Face Detector/Pods-Face Detector.debug.xcconfig"; sourceTree = "<group>"; };
+		78318710230E0D68009D7A0A /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
+		78318712230E0DBA009D7A0A /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		78838B38230DB466009A2BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		78C61660230C9883009829DB /* Face Detector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Face Detector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C61663230C9883009829DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +93,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7831870F230E0D48009D7A0A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				78318710230E0D68009D7A0A /* CALayer.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		78C61657230C9883009829DB = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +126,7 @@
 		78C61662230C9883009829DB /* Face Detector */ = {
 			isa = PBXGroup;
 			children = (
+				7831870F230E0D48009D7A0A /* Extensions */,
 				78C61663230C9883009829DB /* AppDelegate.swift */,
 				78C61665230C9883009829DB /* ViewController.swift */,
 				78C61667230C9886009829DB /* Assets.xcassets */,
@@ -121,6 +134,7 @@
 				78C6166C230C9886009829DB /* Info.plist */,
 				78838B38230DB466009A2BF9 /* GoogleService-Info.plist */,
 				78C6166D230C9886009829DB /* Face_Detector.entitlements */,
+				78318712230E0DBA009D7A0A /* Utils.swift */,
 			);
 			path = "Face Detector";
 			sourceTree = "<group>";
@@ -338,8 +352,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78318711230E0D68009D7A0A /* CALayer.swift in Sources */,
 				78C61666230C9883009829DB /* ViewController.swift in Sources */,
 				78C61664230C9883009829DB /* AppDelegate.swift in Sources */,
+				78318713230E0DBA009D7A0A /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,26 +16,6 @@ import FirebaseFirestore
 import FirebaseAuth
 import FirebaseStorage
 
-extension CALayer {
-
-    /// Get `NSImage` representation of the layer.
-    ///
-    /// - Returns: `NSImage` of the layer.
-
-    func image() -> NSImage {
-        let width = Int(bounds.width * self.contentsScale)
-        let height = Int(bounds.height * self.contentsScale)
-        let imageRepresentation = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: width, pixelsHigh: height, bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSColorSpaceName.deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
-        imageRepresentation.size = bounds.size
-
-        let context = NSGraphicsContext(bitmapImageRep: imageRepresentation)!
-
-        render(in: context.cgContext)
-
-        return NSImage(cgImage: imageRepresentation.cgImage!, size: bounds.size)
-    }
-
-}
 
 class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
@@ -622,11 +602,6 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
     }
 
-    func randomString(length: Int) -> String {
-        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map{ _ in letters.randomElement()! })
-    }
-
     func uploadTestImage() {
         print("\(#function)")
         if let woodyImage = NSImage(named: "Woody") {
@@ -672,7 +647,7 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
                 // let userID = Auth.auth().currentUser?.uid
                 let db = Firestore.firestore()
 
-                let randomName = self.randomString(length: 20)
+                let randomName = randomString(length: 20)
                 db.collection("faces").document(randomName).setData([
                     "url": downloadURL.absoluteString
                 ]) { err in
@@ -685,6 +660,4 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
             }
         }
     }
-
 }
-
