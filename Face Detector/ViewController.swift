@@ -14,6 +14,7 @@ import Vision
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseStorage
 
 class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
@@ -46,18 +47,29 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
         self.session = self.setupAVCaptureSession()
 
-        self.prepareVisionRequest()
+        // self.prepareVisionRequest()
 
         self.session?.startRunning()
-
-        signIn()
     }
 
+    override func viewDidAppear() {
+        print("\(#function)")
+    }
 
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
+    }
+
+    // MARK: Actions
+
+    @IBAction func LogIn(_ sender: Any) {
+        signIn()
+    }
+
+    @IBAction func uploadImage(_ sender: Any) {
+        uploadTestImage()
     }
 
     // MARK: AVCapture Setup
@@ -572,16 +584,61 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
             guard let strongSelf = self else { return }
             // ...
             print("logged into Firebase")
-            uploadTestImage()
         }
     }
 
-    func uploadImage() {
-
+    func randomString(length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in letters.randomElement()! })
     }
 
     func uploadTestImage() {
-        uploadImage()
+        print("\(#function)")
+        if let woodyImage = NSImage(named: "Woody") {
+            guard let tiff = woodyImage.tiffRepresentation,
+                let imageRep = NSBitmapImageRep(data: tiff) else {
+                    return
+            }
+
+            let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 1])!
+
+            // Create a root reference
+            let storageRef = Storage.storage().reference()
+
+            let imageRef = storageRef.child("faces/" + randomString(length: 20) + ".jpg")
+
+
+            imageRef.putData(compressedData, metadata: nil) { metadata, error in
+                guard let metadata = metadata else {
+                    // Uh-oh, an error occurred!
+                    return
+                }
+                // Metadata contains file metadata such as size, content-type.
+                let size = metadata.size
+                // You can also access to download URL after upload.
+                storageRef.downloadURL { (url, error) in
+                    guard let downloadURL = url else {
+                        // Uh-oh, an error occurred!
+                        return
+                    }
+
+                    // Add the image to the database
+                    // let userID = Auth.auth().currentUser?.uid
+                    let db = Firestore.firestore()
+
+                    // Add a new document in collection "cities"
+                    db.collection("faces").document("woody").setData([
+                        "url": downloadURL
+                    ]) { err in
+                        if let err = err {
+                            print("Error writing document: \(err)")
+                        } else {
+                            print("Document successfully written!")
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

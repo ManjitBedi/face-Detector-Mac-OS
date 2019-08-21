@@ -38,8 +38,12 @@ PODS:
     - leveldb-library (~> 1.22)
     - nanopb (~> 0.3.901)
     - Protobuf (~> 3.1)
-  - GoogleDataTransport (1.1.1)
-  - GoogleDataTransportCCTSupport (1.0.1):
+  - FirebaseStorage (3.4.0):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleDataTransport (1.1.2)
+  - GoogleDataTransportCCTSupport (1.0.2):
     - GoogleDataTransport (~> 1.1)
     - nanopb
   - GoogleUtilities/AppDelegateSwizzler (6.2.5):
@@ -85,6 +89,7 @@ DEPENDENCIES:
   - FirebaseAuth (from `https://github.com/firebase/firebase-ios-sdk.git`, branch `master`)
   - FirebaseCore (from `https://github.com/firebase/firebase-ios-sdk.git`, branch `master`)
   - FirebaseFirestore (from `https://github.com/firebase/firebase-ios-sdk.git`, branch `master`)
+  - FirebaseStorage (from `https://github.com/firebase/firebase-ios-sdk.git`, branch `master`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -112,16 +117,22 @@ EXTERNAL SOURCES:
   FirebaseFirestore:
     :branch: master
     :git: https://github.com/firebase/firebase-ios-sdk.git
+  FirebaseStorage:
+    :branch: master
+    :git: https://github.com/firebase/firebase-ios-sdk.git
 
 CHECKOUT OPTIONS:
   FirebaseAuth:
-    :commit: d99c6c307d57af41d9da26a3288724522869a9a3
+    :commit: c7777be93ce1c4355ce7f040fcc965b14c89e0fd
     :git: https://github.com/firebase/firebase-ios-sdk.git
   FirebaseCore:
-    :commit: d99c6c307d57af41d9da26a3288724522869a9a3
+    :commit: c7777be93ce1c4355ce7f040fcc965b14c89e0fd
     :git: https://github.com/firebase/firebase-ios-sdk.git
   FirebaseFirestore:
-    :commit: d99c6c307d57af41d9da26a3288724522869a9a3
+    :commit: c7777be93ce1c4355ce7f040fcc965b14c89e0fd
+    :git: https://github.com/firebase/firebase-ios-sdk.git
+  FirebaseStorage:
+    :commit: c7777be93ce1c4355ce7f040fcc965b14c89e0fd
     :git: https://github.com/firebase/firebase-ios-sdk.git
 
 SPEC CHECKSUMS:
@@ -132,8 +143,9 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 4c04ae09d0ab027c30179828c6bb47764df1bd13
   FirebaseCoreDiagnosticsInterop: 6829da2b8d1fc795ff1bd99df751d3788035d2cb
   FirebaseFirestore: 3624136a38db01840f739014ff70a959fe88be05
-  GoogleDataTransport: ffbadce4ab93c88fb9dd8e6366c47bfcb4a32193
-  GoogleDataTransportCCTSupport: 3451e7d8ba19093e533362a6d78d6d9014c6a037
+  FirebaseStorage: 618dd8fd886b30adf6e5d1915b1f5c18cb5c3944
+  GoogleDataTransport: 9c3d63ed82f882a9a74d4be67dd7ad01bf046102
+  GoogleDataTransportCCTSupport: 6b545f7149111180763dc18c6f372c963de4a310
   GoogleUtilities: e7dc37039b19df7fe543479d3e4a02ac8d11bb69
   "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
@@ -142,6 +154,6 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
 
-PODFILE CHECKSUM: bce57934230a0374ece2ec2d53311f343a852f6a
+PODFILE CHECKSUM: 8ca0ccdae367957e17e6b49a9bc6f868e1de1e12
 
 COCOAPODS: 1.7.4
