@@ -16,6 +16,27 @@ import FirebaseFirestore
 import FirebaseAuth
 import FirebaseStorage
 
+extension CALayer {
+
+    /// Get `NSImage` representation of the layer.
+    ///
+    /// - Returns: `NSImage` of the layer.
+
+    func image() -> NSImage {
+        let width = Int(bounds.width * self.contentsScale)
+        let height = Int(bounds.height * self.contentsScale)
+        let imageRepresentation = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: width, pixelsHigh: height, bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSColorSpaceName.deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
+        imageRepresentation.size = bounds.size
+
+        let context = NSGraphicsContext(bitmapImageRep: imageRepresentation)!
+
+        render(in: context.cgContext)
+
+        return NSImage(cgImage: imageRepresentation.cgImage!, size: bounds.size)
+    }
+
+}
+
 class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     @IBOutlet weak var cameraView: NSView!
@@ -36,6 +57,8 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
     var detectedFaceRectangleShapeLayer: CAShapeLayer?
     var detectedFaceLandmarksShapeLayer: CAShapeLayer?
 
+    var displayFaceLandmarks = false
+
     // Vision requests
     private var detectionRequests: [VNDetectFaceRectanglesRequest]?
     private var trackingRequests: [VNTrackObjectRequest]?
@@ -47,7 +70,7 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
         self.session = self.setupAVCaptureSession()
 
-        // self.prepareVisionRequest()
+        self.prepareVisionRequest()
 
         self.session?.startRunning()
     }
@@ -70,6 +93,31 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
     @IBAction func uploadImage(_ sender: Any) {
         uploadTestImage()
+    }
+
+    @IBAction func uploadVideoFrame(_ sender: Any) {
+
+//        guard let videoFrame = detectionOverlayLayer?.image() else {
+//            return
+//        }
+
+        let captureView = cameraView
+        let newRect = NSMakeRect(0, 0, (captureView?.bounds.width)!, (captureView?.bounds.height)! )
+        let rep = captureView?.bitmapImageRepForCachingDisplay(in: newRect)
+        captureView?.cacheDisplay(in:newRect, to: rep!)
+
+        // make the image - tried to resize here
+        let imgSize = NSMakeSize((captureView?.bounds.width)! * CGFloat(0.3), (captureView?.bounds.height)! * CGFloat(0.3) )
+        let img = NSImage(size: imgSize)
+        img.addRepresentation(rep!)
+        
+        guard let tiff = img.tiffRepresentation,
+            let imageRep = NSBitmapImageRep(data: tiff) else {
+                return
+        }
+
+        let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
+        uploadImageToFirebase(data: compressedData)
     }
 
     // MARK: AVCapture Setup
@@ -100,14 +148,9 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         if captureDevice != nil {
             do {
                 try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice!))
-                previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                previewLayer?.frame = (self.cameraView.layer?.frame)!
-                previewLayer?.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
-
-                // Add previewLayer into custom view
-                self.cameraView.layer?.addSublayer(previewLayer!)
 
                 self.configureVideoDataOutput(for: captureDevice!, resolution: CGSize(width: 320,height: 200) , captureSession: captureSession)
+
                 self.designatePreviewLayer(for: captureSession)
 
                 return captureSession
@@ -208,6 +251,7 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         videoPreviewLayer.name = "CameraPreview"
         videoPreviewLayer.backgroundColor = NSColor.black.cgColor
         videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoPreviewLayer.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
 
         // if let previewRootLayer = self.previewView?.layer
         NSLog("camera view layer %@", self.cameraView.layer!)
@@ -582,7 +626,8 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
     func signIn() {
         Auth.auth().signIn(withEmail: "info@jakelaffoley.co.uk", password: "biomexit123") { [weak self] user, error in
             guard let strongSelf = self else { return }
-            // ...
+
+
             print("logged into Firebase")
         }
     }
@@ -600,53 +645,56 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
                     return
             }
 
-            let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 1])!
+            let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
+            uploadImageToFirebase(data: compressedData)
+        }
+    }
 
-            // Create a root reference
-            let storageRef = Storage.storage().reference()
+    func uploadImageToFirebase(data: Data) {
+        // Create a root reference
+        let storageRef = Storage.storage().reference()
 
-            let imageRef = storageRef.child("faces/" + randomString(length: 20) + ".jpg")
+        let imageRef = storageRef.child("faces/" + randomString(length: 20) + ".jpg")
 
+        imageRef.putData(data, metadata: nil) { metadata, error in
 
-            imageRef.putData(compressedData, metadata: nil) { metadata, error in
+            if error != nil{
+                print(error?.localizedDescription as Any)
+                return
+            }
 
-                if error != nil{
-                    print(error?.localizedDescription as Any)
-                    return
-                }
-
-                if metadata == nil {
+            if metadata == nil {
+                // Uh-oh, an error occurred!
+                print("putData completed with no meta data")
+                return
+            }
+            // Metadata contains file metadata such as size, content-type.
+            // let size = metadata.size
+            // You can also access to download URL after upload.
+            imageRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
                     // Uh-oh, an error occurred!
-                    print("putData completed with no meta data")
+                    print("no download URL?")
                     return
                 }
-                // Metadata contains file metadata such as size, content-type.
-                // let size = metadata.size
-                // You can also access to download URL after upload.
-                imageRef.downloadURL { (url, error) in
-                    guard let downloadURL = url else {
-                        // Uh-oh, an error occurred!
-                        print("no download URL?")
-                        return
-                    }
 
-                    // Add the image to the database
-                    // let userID = Auth.auth().currentUser?.uid
-                    let db = Firestore.firestore()
+                // Add the image to the database
+                // let userID = Auth.auth().currentUser?.uid
+                let db = Firestore.firestore()
 
-                    // Add a new document in collection "cities"
-                    db.collection("faces").document("woody").setData([
-                        "url": downloadURL.absoluteString
-                    ]) { err in
-                        if let err = err {
-                            print("Error writing document: \(err)")
-                        } else {
-                            print("Document successfully written!")
-                        }
+                let randomName = self.randomString(length: 20)
+                db.collection("faces").document(randomName).setData([
+                    "url": downloadURL.absoluteString
+                ]) { err in
+                    if let err = err {
+                        print("Error writing document: \(err)")
+                    } else {
+                        print("Document successfully written!")
                     }
                 }
             }
         }
     }
+
 }
 
