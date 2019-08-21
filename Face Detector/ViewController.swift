@@ -609,16 +609,24 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
 
             imageRef.putData(compressedData, metadata: nil) { metadata, error in
-                guard let metadata = metadata else {
+
+                if error != nil{
+                    print(error?.localizedDescription as Any)
+                    return
+                }
+
+                if metadata == nil {
                     // Uh-oh, an error occurred!
+                    print("putData completed with no meta data")
                     return
                 }
                 // Metadata contains file metadata such as size, content-type.
-                let size = metadata.size
+                // let size = metadata.size
                 // You can also access to download URL after upload.
-                storageRef.downloadURL { (url, error) in
+                imageRef.downloadURL { (url, error) in
                     guard let downloadURL = url else {
                         // Uh-oh, an error occurred!
+                        print("no download URL?")
                         return
                     }
 
@@ -628,7 +636,7 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
                     // Add a new document in collection "cities"
                     db.collection("faces").document("woody").setData([
-                        "url": downloadURL
+                        "url": downloadURL.absoluteString
                     ]) { err in
                         if let err = err {
                             print("Error writing document: \(err)")
