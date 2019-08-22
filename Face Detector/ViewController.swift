@@ -10,6 +10,7 @@ import Cocoa
 import AVFoundation
 import AVKit
 import Vision
+import CoreGraphics
 
 import FirebaseCore
 import FirebaseFirestore
@@ -17,7 +18,7 @@ import FirebaseAuth
 import FirebaseStorage
 
 
-class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     @IBOutlet weak var cameraView: NSView!
 
@@ -637,18 +638,36 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
     func uploadDetectedFace(sampleBuffer: CMSampleBuffer) {
         timeToUploadImage = false
-        uploadFrame(sampleBuffer: sampleBuffer)
+        var image = getImageFromSampleBuffer( sampleBuffer: sampleBuffer)
+
+        if compositeOverlays {
+            let overlaysImage = rootLayer?.image()
+            let combinedImage = NSImage(size: image!.size)
+
+            // Draw the images into a new image!
+            combinedImage.lockFocus()
+            let rect = CGRect(origin: CGPoint.zero, size: image!.size)
+            // draw the video frame
+            image!.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
+
+            // draw the overlays
+            overlaysImage!.draw(at: CGPoint.zero, from: rect, operation: .destinationOver, fraction: 0.5)
+
+            combinedImage.unlockFocus()
+            image = combinedImage
+        }
+
+        if let tiff = image?.tiffRepresentation,
+            let imageRep = NSBitmapImageRep(data: tiff)  {
+            let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
+            uploadImageToFirebase(data: compressedData)
+        }
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            if self.uploadDetectedFaces {
-                self.timeToUploadImage = true
-            }
+            self.timeToUploadImage = true
         }
     }
 
-    @objc func fireTimer() {
-        print("\(#function)")
-        timeToUploadImage = true
-    }
 
     func getImageFromSampleBuffer(sampleBuffer: CMSampleBuffer) ->NSImage? {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
