@@ -39,6 +39,8 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
     var displayFaceLandmarks = false
 
+    var uploadFrame = false
+
     // Vision requests
     private var detectionRequests: [VNDetectFaceRectanglesRequest]?
     private var trackingRequests: [VNTrackObjectRequest]?
@@ -76,6 +78,10 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
     }
 
     @IBAction func uploadVideoFrame(_ sender: Any) {
+        uploadFrame = true
+    }
+
+    func captureStillImage() {
         let stillImageOutput = AVCaptureStillImageOutput.init()
         stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecType.jpeg]
         session!.addOutput(stillImageOutput)
@@ -89,6 +95,7 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
             })
         }
     }
+
 
     // MARK: AVCapture Setup
 
@@ -187,11 +194,15 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
     fileprivate func configureVideoDataOutput(for inputDevice: AVCaptureDevice, resolution: CGSize, captureSession: AVCaptureSession) {
 
         let videoDataOutput = AVCaptureVideoDataOutput()
+
+        // Setting the video format to be able to capture a still
+        // How does this affect the Vision face detection?
+        videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: kCVPixelFormatType_32BGRA]
         videoDataOutput.alwaysDiscardsLateVideoFrames = true
 
         // Create a serial dispatch queue used for the sample buffer delegate as well as when a still image is captured.
         // A serial dispatch queue must be used to guarantee that video frames will be delivered in order.
-        let videoDataOutputQueue = DispatchQueue(label: "com.example.apple-samplecode.VisionFaceTrack")
+        let videoDataOutputQueue = DispatchQueue(label: "com.noorg.Face-Detector")
         videoDataOutput.setSampleBufferDelegate(self, queue: videoDataOutputQueue)
 
         if captureSession.canAddOutput(videoDataOutput) {
@@ -200,11 +211,12 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
         videoDataOutput.connection(with: .video)?.isEnabled = true
 
-        if let captureConnection = videoDataOutput.connection(with: AVMediaType.video) {
+        // iOS specific code,  is there an equivalent for Mac OS?
+//        if let captureConnection = videoDataOutput.connection(with: AVMediaType.video) {
 //            if captureConnection.isCameraIntrinsicMatrixDeliverySupported {
 //                captureConnection.isCameraIntrinsicMatrixDeliveryEnabled = true
 //            }
-        }
+//        }
 
         self.videoDataOutput = videoDataOutput
         self.videoDataOutputQueue = videoDataOutputQueue
@@ -222,9 +234,6 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         videoPreviewLayer.backgroundColor = NSColor.black.cgColor
         videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         videoPreviewLayer.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
-
-        // if let previewRootLayer = self.previewView?.layer
-        NSLog("camera view layer %@", self.cameraView.layer!)
 
         if let previewRootLayer = self.cameraView.layer {
             self.rootLayer = previewRootLayer
@@ -481,6 +490,16 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
     // Handle delegate method callback on receiving a sample buffer.
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 
+        if uploadFrame {
+            uploadFrame = false
+            let image = getImageFromSampleBuffer( sampleBuffer: sampleBuffer)
+            if let tiff = image?.tiffRepresentation,
+                let imageRep = NSBitmapImageRep(data: tiff)  {
+                let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
+                uploadImageToFirebase(data: compressedData)
+            }
+        }
+
         var requestHandlerOptions: [VNImageOption: AnyObject] = [:]
 
         let cameraIntrinsicData = CMGetAttachment(sampleBuffer, key: kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix, attachmentModeOut: nil)
@@ -589,6 +608,28 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
                 NSLog("Failed to perform FaceLandmarkRequest: %@", error)
             }
         }
+    }
+
+    func getImageFromSampleBuffer(sampleBuffer: CMSampleBuffer) ->NSImage? {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            return nil
+        }
+        CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
+        let baseAddress = CVPixelBufferGetBaseAddress(pixelBuffer)
+        let width = CVPixelBufferGetWidth(pixelBuffer)
+        let height = CVPixelBufferGetHeight(pixelBuffer)
+        let bytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer)
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue | CGBitmapInfo.byteOrder32Little.rawValue)
+        guard let context = CGContext(data: baseAddress, width: width, height: height, bitsPerComponent: 8, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo.rawValue) else {
+            return nil
+        }
+        guard let cgImage = context.makeImage() else {
+            return nil
+        }
+        let image = NSImage(cgImage: cgImage, size: NSSize(width: width, height: height))
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
+        return image
     }
 
     // Firebase
