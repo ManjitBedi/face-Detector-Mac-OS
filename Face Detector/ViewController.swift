@@ -41,6 +41,10 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
     var uploadFrame = false
 
+    var uploadDetectedFaces = false
+    var timeToUploadImage = false
+    var compositeOverlays = false
+
     // Vision requests
     private var detectionRequests: [VNDetectFaceRectanglesRequest]?
     private var trackingRequests: [VNTrackObjectRequest]?
@@ -80,6 +84,19 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
     @IBAction func uploadVideoFrame(_ sender: Any) {
         uploadFrame = true
     }
+
+
+    @IBAction func toogleUplods(_ sender: NSButton) {
+
+        print("button state \(sender.state)")
+        uploadDetectedFaces = Bool(truncating: NSNumber(value: sender.state.rawValue))
+
+        if uploadDetectedFaces {
+            timeToUploadImage = true
+        }
+    }
+
+    // MARK:
 
     func captureStillImage() {
         let stillImageOutput = AVCaptureStillImageOutput.init()
@@ -348,8 +365,8 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         faceRectangleShapeLayer.anchorPoint = normalizedCenterPoint
         faceRectangleShapeLayer.position = captureDeviceBoundsCenterPoint
         faceRectangleShapeLayer.fillColor = nil
-        faceRectangleShapeLayer.strokeColor = NSColor.green.withAlphaComponent(0.7).cgColor
-        faceRectangleShapeLayer.lineWidth = 5
+        faceRectangleShapeLayer.strokeColor = NSColor(named: "rectColor")?.cgColor
+        faceRectangleShapeLayer.lineWidth = 2
         faceRectangleShapeLayer.shadowOpacity = 0.7
         faceRectangleShapeLayer.shadowRadius = 5
 
@@ -359,8 +376,8 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         faceLandmarksShapeLayer.anchorPoint = normalizedCenterPoint
         faceLandmarksShapeLayer.position = captureDeviceBoundsCenterPoint
         faceLandmarksShapeLayer.fillColor = nil
-        faceLandmarksShapeLayer.strokeColor = NSColor.yellow.withAlphaComponent(0.7).cgColor
-        faceLandmarksShapeLayer.lineWidth = 3
+        faceLandmarksShapeLayer.strokeColor =  NSColor(named: "faceLandmarksColor")?.cgColor
+        faceLandmarksShapeLayer.lineWidth = 2
         faceLandmarksShapeLayer.shadowOpacity = 0.7
         faceLandmarksShapeLayer.shadowRadius = 5
 
@@ -492,12 +509,7 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
         if uploadFrame {
             uploadFrame = false
-            let image = getImageFromSampleBuffer( sampleBuffer: sampleBuffer)
-            if let tiff = image?.tiffRepresentation,
-                let imageRep = NSBitmapImageRep(data: tiff)  {
-                let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
-                uploadImageToFirebase(data: compressedData)
-            }
+            uploadFrame(sampleBuffer: sampleBuffer)
         }
 
         var requestHandlerOptions: [VNImageOption: AnyObject] = [:]
@@ -580,6 +592,10 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
                         return
                 }
 
+                if self.timeToUploadImage {
+                    self.uploadDetectedFace(sampleBuffer: sampleBuffer)
+                }
+
                 // Perform all UI updates (drawing) on the main queue, not the background queue on which this handler is being called.
                 DispatchQueue.main.async {
                     self.drawFaceObservations(results)
@@ -610,6 +626,30 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
     }
 
+    func uploadFrame(sampleBuffer: CMSampleBuffer) {
+        let image = getImageFromSampleBuffer( sampleBuffer: sampleBuffer)
+        if let tiff = image?.tiffRepresentation,
+            let imageRep = NSBitmapImageRep(data: tiff)  {
+            let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
+            uploadImageToFirebase(data: compressedData)
+        }
+    }
+
+    func uploadDetectedFace(sampleBuffer: CMSampleBuffer) {
+        timeToUploadImage = false
+        uploadFrame(sampleBuffer: sampleBuffer)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            if self.uploadDetectedFaces {
+                self.timeToUploadImage = true
+            }
+        }
+    }
+
+    @objc func fireTimer() {
+        print("\(#function)")
+        timeToUploadImage = true
+    }
+
     func getImageFromSampleBuffer(sampleBuffer: CMSampleBuffer) ->NSImage? {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return nil
@@ -636,10 +676,9 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
 
     func signIn() {
         Auth.auth().signIn(withEmail: "info@jakelaffoley.co.uk", password: "biomexit123") { [weak self] user, error in
-            guard let strongSelf = self else { return }
-
-
-            print("logged into Firebase")
+            if self != nil {
+                print("logged into Firebase")
+            }
         }
     }
 

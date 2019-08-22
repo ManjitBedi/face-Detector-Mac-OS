@@ -745,6 +745,17 @@
                                             <action selector="uploadVideoFrame:" target="XfG-lQ-9wD" id="wei-2c-jdK"/>
                                         </connections>
                                     </button>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JYF-oN-0zn">
+                                        <rect key="frame" x="502" y="569" width="160" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="check" title="Uplaod detected faces" bezelStyle="regularSquare" imagePosition="left" inset="2" id="M74-E1-MJD">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="toogleUplods:" target="XfG-lQ-9wD" id="DN6-4C-jza"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </customView>
                         </subviews>
