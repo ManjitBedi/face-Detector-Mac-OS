@@ -44,7 +44,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     var uploadDetectedFaces = false
     var timeToUploadImage = false
-    var compositeOverlays = false
+    var compositeOverlays = true
+
+    var saveImage = true
 
     // Vision requests
     private var detectionRequests: [VNDetectFaceRectanglesRequest]?
@@ -629,7 +631,29 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     func uploadFrame(sampleBuffer: CMSampleBuffer) {
         let image = getImageFromSampleBuffer( sampleBuffer: sampleBuffer)
-        if let tiff = image?.tiffRepresentation,
+
+        if compositeOverlays {
+            let overlaysImage = detectionOverlayLayer?.image()
+            let combinedImage = NSImage(size: image!.size)
+
+            // Draw the images into a new image!
+            combinedImage.lockFocus()
+            let rect = CGRect(origin: CGPoint.zero, size: image!.size)
+            // draw the video frame
+            image!.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
+
+            // draw the overlays
+            overlaysImage!.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
+
+            combinedImage.unlockFocus()
+
+            if let tiff = combinedImage.tiffRepresentation,
+                let imageRep = NSBitmapImageRep(data: tiff)  {
+                let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
+                uploadImageToFirebase(data: compressedData)
+            }
+
+        } else if let tiff = image?.tiffRepresentation,
             let imageRep = NSBitmapImageRep(data: tiff)  {
             let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
             uploadImageToFirebase(data: compressedData)
@@ -641,7 +665,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         var image = getImageFromSampleBuffer( sampleBuffer: sampleBuffer)
 
         if compositeOverlays {
-            let overlaysImage = rootLayer?.image()
+            let overlaysImage = detectionOverlayLayer?.image()
             let combinedImage = NSImage(size: image!.size)
 
             // Draw the images into a new image!
@@ -651,7 +675,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             image!.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
 
             // draw the overlays
-            overlaysImage!.draw(at: CGPoint.zero, from: rect, operation: .destinationOver, fraction: 0.5)
+            overlaysImage!.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
 
             combinedImage.unlockFocus()
             image = combinedImage

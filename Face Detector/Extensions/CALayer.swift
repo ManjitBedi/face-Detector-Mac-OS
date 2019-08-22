@@ -22,9 +22,12 @@ extension CALayer {
 
         let context = NSGraphicsContext(bitmapImageRep: imageRepresentation)!
 
+        let cgContext = context.cgContext
+        let rect = CGRect(origin: CGPoint.zero, size: CGSize(width: width, height: height))
+        cgContext.clear(rect)
+
         render(in: context.cgContext)
 
         return NSImage(cgImage: imageRepresentation.cgImage!, size: bounds.size)
     }
-
 }
