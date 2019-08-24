@@ -12,7 +12,7 @@ import Preferences
 
 extension PreferencePane.Identifier {
     static let general = Identifier("general")
-    static let advanced = Identifier("video")
+    static let video = Identifier("video")
 }
 
 @NSApplicationMain
@@ -34,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
 
-        preferencesWindowController.show(preferencePane: .advanced)
+        preferencesWindowController.show(preferencePane: .video)
     }
 
     func applicationWillFinishLaunching(_ notification: Notification) {
@@ -48,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     lazy var preferences: [PreferencePane] = [
         GeneralPreferenceViewController(),
-        AdvancedPreferenceViewController()
+        VideoCameraPreferenceViewController()
     ]
 
     lazy var preferencesWindowController = PreferencesWindowController(
