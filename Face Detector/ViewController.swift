@@ -133,7 +133,6 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         // Find the FaceTime HD camera object
         for device in devices {
-            print(device)
 
             // Camera object found and assign it to captureDevice
             if ((device as AnyObject).hasMediaType(AVMediaType.video)) {
