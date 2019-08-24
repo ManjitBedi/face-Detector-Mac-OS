@@ -20,6 +20,12 @@
 		78C61691230C99D1009829DB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C61690230C99D1009829DB /* AVFoundation.framework */; };
 		78C61693230C99D8009829DB /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C61692230C99D8009829DB /* Vision.framework */; };
 		78C61695230CA2FD009829DB /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C61694230CA2FD009829DB /* AVKit.framework */; };
+		78F44351231159EF005CCBF0 /* GeneralPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4434D231159EF005CCBF0 /* GeneralPreferenceViewController.swift */; };
+		78F44352231159EF005CCBF0 /* AdvancedPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F4434E231159EF005CCBF0 /* AdvancedPreferenceViewController.xib */; };
+		78F44353231159EF005CCBF0 /* GeneralPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F4434F231159EF005CCBF0 /* GeneralPreferenceViewController.xib */; };
+		78F44354231159EF005CCBF0 /* AdvancedPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F44350231159EF005CCBF0 /* AdvancedPreferenceViewController.swift */; };
+		78F4435723115C27005CCBF0 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4435523115C26005CCBF0 /* util.swift */; };
+		78F4435823115C27005CCBF0 /* PreferencesStyle+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4435623115C27005CCBF0 /* PreferencesStyle+UserDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +71,12 @@
 		78C61690230C99D1009829DB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		78C61692230C99D8009829DB /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = SDKROOT; };
 		78C61694230CA2FD009829DB /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		78F4434D231159EF005CCBF0 /* GeneralPreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPreferenceViewController.swift; sourceTree = "<group>"; };
+		78F4434E231159EF005CCBF0 /* AdvancedPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdvancedPreferenceViewController.xib; sourceTree = "<group>"; };
+		78F4434F231159EF005CCBF0 /* GeneralPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralPreferenceViewController.xib; sourceTree = "<group>"; };
+		78F44350231159EF005CCBF0 /* AdvancedPreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedPreferenceViewController.swift; sourceTree = "<group>"; };
+		78F4435523115C26005CCBF0 /* util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
+		78F4435623115C27005CCBF0 /* PreferencesStyle+UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PreferencesStyle+UserDefaults.swift"; sourceTree = "<group>"; };
 		A5C3D39745ABC9776FF25A03 /* Pods_Face_Detector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Face_Detector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -141,6 +153,7 @@
 		78C61662230C9883009829DB /* Face Detector */ = {
 			isa = PBXGroup;
 			children = (
+				78F4434C23115492005CCBF0 /* Preferences */,
 				785AD6C7230F1FF5001223C3 /* Cross Platform */,
 				7831870F230E0D48009D7A0A /* Extensions */,
 				78C61663230C9883009829DB /* AppDelegate.swift */,
@@ -182,6 +195,19 @@
 				A5C3D39745ABC9776FF25A03 /* Pods_Face_Detector.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		78F4434C23115492005CCBF0 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				78F4435623115C27005CCBF0 /* PreferencesStyle+UserDefaults.swift */,
+				78F4435523115C26005CCBF0 /* util.swift */,
+				78F44350231159EF005CCBF0 /* AdvancedPreferenceViewController.swift */,
+				78F4434E231159EF005CCBF0 /* AdvancedPreferenceViewController.xib */,
+				78F4434D231159EF005CCBF0 /* GeneralPreferenceViewController.swift */,
+				78F4434F231159EF005CCBF0 /* GeneralPreferenceViewController.xib */,
+			);
+			path = Preferences;
 			sourceTree = "<group>";
 		};
 		8C984201CF779AFDF8A49B17 /* Pods */ = {
@@ -300,6 +326,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				78C61668230C9886009829DB /* Assets.xcassets in Resources */,
+				78F44352231159EF005CCBF0 /* AdvancedPreferenceViewController.xib in Resources */,
+				78F44353231159EF005CCBF0 /* GeneralPreferenceViewController.xib in Resources */,
 				78C6166B230C9886009829DB /* Main.storyboard in Resources */,
 				78838B39230DB466009A2BF9 /* GoogleService-Info.plist in Resources */,
 			);
@@ -368,10 +396,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78F4435723115C27005CCBF0 /* util.swift in Sources */,
+				78F44351231159EF005CCBF0 /* GeneralPreferenceViewController.swift in Sources */,
 				78318711230E0D68009D7A0A /* CALayer.swift in Sources */,
+				78F4435823115C27005CCBF0 /* PreferencesStyle+UserDefaults.swift in Sources */,
 				78C61666230C9883009829DB /* ViewController.swift in Sources */,
 				78C61664230C9883009829DB /* AppDelegate.swift in Sources */,
 				78318713230E0DBA009D7A0A /* Utils.swift in Sources */,
+				78F44354231159EF005CCBF0 /* AdvancedPreferenceViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

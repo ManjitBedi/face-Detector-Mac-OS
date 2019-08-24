@@ -2,10 +2,13 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :osx, '10.14'
 use_frameworks!
 
-
 target 'Face Detector' do
+  # Firebase does not officially support MacOS; it is available using community support
     pod 'FirebaseCore', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :branch => 'master'
     pod 'FirebaseFirestore', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :branch => 'master'
     pod 'FirebaseAuth', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :branch => 'master'
     pod 'FirebaseStorage', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :branch => 'master'
+
+    # quickly add preferences to a MacOS app
+    pod 'Preferences'
 end
