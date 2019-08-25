@@ -22,6 +22,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     @IBOutlet weak var cameraView: NSView!
 
+    @IBOutlet weak var buttonsView: NSStackView!
+
+
     // AVCapture variables to hold sequence data
     var session: AVCaptureSession?
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -76,12 +79,21 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     // MARK: Actions
 
-    @IBAction func LogIn(_ sender: Any) {
+    @IBAction func loginFirebase(_ sender: Any) {
         signIn()
     }
 
-    @IBAction func uploadImage(_ sender: Any) {
-        uploadTestImage()
+    @IBAction func uploadTestImage(_ sender: Any) {
+        print("\(#function)")
+        if let woodyImage = NSImage(named: "Woody") {
+            guard let tiff = woodyImage.tiffRepresentation,
+                let imageRep = NSBitmapImageRep(data: tiff) else {
+                    return
+            }
+
+            let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
+            uploadImageToFirebase(data: compressedData)
+        }
     }
 
     @IBAction func uploadVideoFrame(_ sender: Any) {
@@ -89,14 +101,27 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
 
-    @IBAction func toogleUplods(_ sender: NSButton) {
-
+    @IBAction func toggleUploadingFromButton(_ sender: NSButton) {
         print("button state \(sender.state)")
         uploadDetectedFaces = Bool(truncating: NSNumber(value: sender.state.rawValue))
 
         if uploadDetectedFaces {
             timeToUploadImage = true
         }
+    }
+
+
+    @IBAction func toggleUploading(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        uploadDetectedFaces = Bool(truncating: NSNumber(value: sender.state.rawValue))
+        if uploadDetectedFaces {
+            timeToUploadImage = true
+        }
+    }
+
+    @IBAction func toogleUIButtons(_ sender: NSMenuItem) {
+        sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
+        buttonsView.isHidden = !Bool(truncating: NSNumber(value: sender.state.rawValue))
     }
 
     // MARK:
@@ -699,8 +724,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             uploadImageToFirebase(data: compressedData)
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.timeToUploadImage = true
+        if uploadDetectedFaces {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                self.timeToUploadImage = true
+            }
         }
     }
 
@@ -734,19 +761,6 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             if self != nil {
                 print("logged into Firebase")
             }
-        }
-    }
-
-    func uploadTestImage() {
-        print("\(#function)")
-        if let woodyImage = NSImage(named: "Woody") {
-            guard let tiff = woodyImage.tiffRepresentation,
-                let imageRep = NSBitmapImageRep(data: tiff) else {
-                    return
-            }
-
-            let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
-            uploadImageToFirebase(data: compressedData)
         }
     }
 
