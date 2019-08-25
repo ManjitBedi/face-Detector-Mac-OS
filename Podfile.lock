@@ -5,6 +5,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.3):
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
+  - Defaults (2.0.2)
   - FirebaseAuth (6.2.3):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.2)
@@ -87,6 +88,7 @@ PODS:
   - Protobuf (3.9.0)
 
 DEPENDENCIES:
+  - Defaults
   - FirebaseAuth (from `https://github.com/firebase/firebase-ios-sdk.git`, branch `master`)
   - FirebaseCore (from `https://github.com/firebase/firebase-ios-sdk.git`, branch `master`)
   - FirebaseFirestore (from `https://github.com/firebase/firebase-ios-sdk.git`, branch `master`)
@@ -96,6 +98,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - BoringSSL-GRPC
+    - Defaults
     - FirebaseAuthInterop
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
@@ -140,6 +143,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
+  Defaults: 2609ed3d1694fea20f38ad1b1256633fff56af59
   FirebaseAuth: e7f86c2dfc57281cd01f7da5e4b40e01e4510a4a
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: 32b48f41c84a56fbde73b35ed01a830b3b6dc048
@@ -158,6 +162,6 @@ SPEC CHECKSUMS:
   Preferences: c49ee75042039219496fc5a457258338143782ce
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
 
-PODFILE CHECKSUM: 30c3db6767496cbe20e48c99983d3a6b51485210
+PODFILE CHECKSUM: 07e01b8bab0c537983f1d354f209073002d7f4dc
 
 COCOAPODS: 1.7.4

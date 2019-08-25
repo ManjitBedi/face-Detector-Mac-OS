@@ -11,4 +11,6 @@ target 'Face Detector' do
 
     # quickly add preferences to a MacOS app
     pod 'Preferences'
+
+    pod 'Defaults'
 end

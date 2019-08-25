@@ -57,10 +57,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        NotificationCenter.default.addObserver(self, selector: #selector(changeCameraDevice), name: NSNotification.Name(rawValue: Constants.ChangeDeviceNotification), object: nil)
+
         self.session = self.setupAVCaptureSession()
-
         self.prepareVisionRequest()
-
         self.session?.startRunning()
     }
 
@@ -121,23 +121,36 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     /// - Tag: CreateCaptureSession
     fileprivate func setupAVCaptureSession() -> AVCaptureSession? {
-
         cameraView.layer = CALayer()
-
         let captureSession = AVCaptureSession()
-
         captureSession.sessionPreset = AVCaptureSession.Preset.low
 
-        // Get all audio and video devices on this machine
         let devices = AVCaptureDevice.devices()
 
-        // Find the FaceTime HD camera object
-        for device in devices {
+        // Get the user preference for the camera if set
+        let deviceName = getDevicePreference()
 
-            // Camera object found and assign it to captureDevice
-            if ((device as AnyObject).hasMediaType(AVMediaType.video)) {
-                print(device)
-                captureDevice = device
+        if deviceName != nil {
+            for device in devices {
+                if ((device as AnyObject).hasMediaType(AVMediaType.video)) && deviceName == device.localizedName {
+                    captureDevice = device
+                    print("pref use camera \(String(describing: deviceName))")
+                }
+            }
+
+            if captureDevice == nil {
+                for device in devices {
+                    if ((device as AnyObject).hasMediaType(AVMediaType.video)) {
+                        captureDevice = device
+                    }
+                }
+            }
+        } else {
+            // Get all audio and video devices on this machine
+            for device in devices {
+                if ((device as AnyObject).hasMediaType(AVMediaType.video)) {
+                    captureDevice = device
+                }
             }
         }
 
@@ -781,5 +794,17 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                 }
             }
         }
+    }
+
+    func getDevicePreference() -> String? {
+        let defaults = UserDefaults.standard
+        return defaults.string(forKey: Constants.DeviceNamePref)
+    }
+
+    @objc func changeCameraDevice() {
+        teardownAVCapture()
+        self.session = self.setupAVCaptureSession()
+        self.prepareVisionRequest()
+        self.session?.startRunning()
     }
 }

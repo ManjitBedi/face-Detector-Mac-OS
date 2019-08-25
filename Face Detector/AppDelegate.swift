@@ -15,6 +15,11 @@ extension PreferencePane.Identifier {
     static let video = Identifier("video")
 }
 
+struct Constants {
+    static let DeviceNamePref = "com.noorg.deviceName"
+    static let ChangeDeviceNotification = "com.noorg.changeDevice"
+}
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
