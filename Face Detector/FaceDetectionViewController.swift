@@ -216,10 +216,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             do {
                 try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice!))
 
-                self.configureVideoDataOutput(for: captureDevice!, resolution: CGSize(width: 640,height: 400) , captureSession: captureSession)
-
+                // TODO: is this a good way to get the resolution?
+                let resolution = getCaptureResolution(device: captureDevice!)
+                self.configureVideoDataOutput(for: captureDevice!, resolution: resolution , captureSession: captureSession)
                 self.designatePreviewLayer(for: captureSession)
-
                 return captureSession
 
             } catch {
@@ -230,6 +230,19 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         self.teardownAVCapture()
 
         return nil
+    }
+
+    private func getCaptureResolution(device: AVCaptureDevice) -> CGSize {
+        // Define default resolution
+        var resolution = CGSize(width: 0, height: 0)
+
+        // Get video dimensions
+        let formatDescription = device.activeFormat.formatDescription
+        let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
+        resolution = CGSize(width: CGFloat(dimensions.width), height: CGFloat(dimensions.height))
+
+        // Return resolution
+        return resolution
     }
 
     /// - Tag: ConfigureDeviceResolution
@@ -258,28 +271,6 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         return nil
     }
 
-//    fileprivate func configureFrontCamera(for captureSession: AVCaptureSession) throws -> (device: AVCaptureDevice, resolution: CGSize) {
-//        let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .front)
-//
-//        if let device = deviceDiscoverySession.devices.first {
-//            if let deviceInput = try? AVCaptureDeviceInput(device: device) {
-//                if captureSession.canAddInput(deviceInput) {
-//                    captureSession.addInput(deviceInput)
-//                }
-//
-//                if let highestResolution = self.highestResolution420Format(for: device) {
-//                    try device.lockForConfiguration()
-//                    device.activeFormat = highestResolution.format
-//                    device.unlockForConfiguration()
-//
-//                    return (device, highestResolution.resolution)
-//                }
-//            }
-//        }
-//
-//        throw NSError(domain: "ViewController", code: 1, userInfo: nil)
-//    }
-
     /// - Tag: CreateSerialDispatchQueue
     fileprivate func configureVideoDataOutput(for inputDevice: AVCaptureDevice, resolution: CGSize, captureSession: AVCaptureSession) {
 
@@ -301,6 +292,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         videoDataOutput.connection(with: .video)?.isEnabled = true
 
+        // TODO: fixme?
         // iOS specific code,  is there an equivalent for Mac OS?
 //        if let captureConnection = videoDataOutput.connection(with: AVMediaType.video) {
 //            if captureConnection.isCameraIntrinsicMatrixDeliverySupported {
