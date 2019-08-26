@@ -216,7 +216,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             do {
                 try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice!))
 
-                self.configureVideoDataOutput(for: captureDevice!, resolution: CGSize(width: 320,height: 200) , captureSession: captureSession)
+                self.configureVideoDataOutput(for: captureDevice!, resolution: CGSize(width: 640,height: 400) , captureSession: captureSession)
 
                 self.designatePreviewLayer(for: captureSession)
 
@@ -439,7 +439,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         faceRectangleShapeLayer.position = captureDeviceBoundsCenterPoint
         faceRectangleShapeLayer.fillColor = nil
         faceRectangleShapeLayer.strokeColor = NSColor(named: "rectColor")?.cgColor
-        faceRectangleShapeLayer.lineWidth = 2
+        faceRectangleShapeLayer.lineWidth = 1
         faceRectangleShapeLayer.shadowOpacity = 0.7
         faceRectangleShapeLayer.shadowRadius = 5
 
@@ -450,9 +450,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         faceLandmarksShapeLayer.position = captureDeviceBoundsCenterPoint
         faceLandmarksShapeLayer.fillColor = nil
         faceLandmarksShapeLayer.strokeColor =  NSColor(named: "faceLandmarksColor")?.cgColor
-        faceLandmarksShapeLayer.lineWidth = 2
+        faceLandmarksShapeLayer.lineWidth = 1
         faceLandmarksShapeLayer.shadowOpacity = 0.7
-        faceLandmarksShapeLayer.shadowRadius = 5
+        faceLandmarksShapeLayer.shadowRadius = 3
 
         overlayLayer.addSublayer(faceRectangleShapeLayer)
         faceRectangleShapeLayer.addSublayer(faceLandmarksShapeLayer)
@@ -712,17 +712,19 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
     func uploadFrame(sampleBuffer: CMSampleBuffer) {
-        let image = getImageFromSampleBuffer( sampleBuffer: sampleBuffer)
+        guard let image = getImageFromSampleBuffer( sampleBuffer: sampleBuffer) else {
+            return
+        }
 
         if compositeOverlays {
             let overlaysImage = detectionOverlayLayer?.image()
-            let combinedImage = NSImage(size: image!.size)
+            let combinedImage = NSImage(size: image.size)
 
             // Draw the images into a new image!
             combinedImage.lockFocus()
-            let rect = CGRect(origin: CGPoint.zero, size: image!.size)
+            let rect = CGRect(origin: CGPoint.zero, size: image.size)
             // draw the video frame
-            image!.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
+            image.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
 
             // draw the overlays
             overlaysImage!.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
@@ -735,7 +737,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                 uploadImageToFirebase(data: compressedData)
             }
 
-        } else if let tiff = image?.tiffRepresentation,
+        } else if let tiff = image.tiffRepresentation,
             let imageRep = NSBitmapImageRep(data: tiff)  {
             let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
             uploadImageToFirebase(data: compressedData)
@@ -743,26 +745,40 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
     func uploadDetectedFace(sampleBuffer: CMSampleBuffer) {
-        var image = getImageFromSampleBuffer( sampleBuffer: sampleBuffer)
+        var image: NSImage
+
+        guard let videoImage = getImageFromSampleBuffer( sampleBuffer: sampleBuffer) else {
+            return
+        }
 
         if compositeOverlays {
-            let overlaysImage = detectionOverlayLayer?.image()
-            let combinedImage = NSImage(size: image!.size)
+            guard let overlaysImage = detectionOverlayLayer?.image() else {
+                return
+            }
+
+            guard let resizedOverlayImage = overlaysImage.resized(to: videoImage.size) else {
+                return
+            }
+
+            let combinedImage = NSImage(size: videoImage.size)
 
             // Draw the images into a new image!
             combinedImage.lockFocus()
-            let rect = CGRect(origin: CGPoint.zero, size: image!.size)
+            let rect = CGRect(origin: CGPoint.zero, size: videoImage.size)
+
             // draw the video frame
-            image!.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
+            videoImage.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
 
             // draw the overlays
-            overlaysImage!.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
+            resizedOverlayImage.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
 
             combinedImage.unlockFocus()
             image = combinedImage
+        } else {
+            image = videoImage
         }
 
-        if let tiff = image?.tiffRepresentation,
+        if let tiff = image.tiffRepresentation,
             let imageRep = NSBitmapImageRep(data: tiff)  {
             let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
 

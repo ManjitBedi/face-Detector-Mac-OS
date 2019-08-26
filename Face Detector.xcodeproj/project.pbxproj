@@ -21,6 +21,7 @@
 		78C61691230C99D1009829DB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C61690230C99D1009829DB /* AVFoundation.framework */; };
 		78C61693230C99D8009829DB /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C61692230C99D8009829DB /* Vision.framework */; };
 		78C61695230CA2FD009829DB /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C61694230CA2FD009829DB /* AVKit.framework */; };
+		78E10A41231493E6007848FB /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E10A40231493E6007848FB /* NSImage.swift */; };
 		78F44351231159EF005CCBF0 /* GeneralPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4434D231159EF005CCBF0 /* GeneralPreferenceViewController.swift */; };
 		78F44352231159EF005CCBF0 /* VideoCameraPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F4434E231159EF005CCBF0 /* VideoCameraPreferenceViewController.xib */; };
 		78F44353231159EF005CCBF0 /* GeneralPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F4434F231159EF005CCBF0 /* GeneralPreferenceViewController.xib */; };
@@ -73,6 +74,7 @@
 		78C61690230C99D1009829DB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		78C61692230C99D8009829DB /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = SDKROOT; };
 		78C61694230CA2FD009829DB /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		78E10A40231493E6007848FB /* NSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImage.swift; sourceTree = "<group>"; };
 		78F4434D231159EF005CCBF0 /* GeneralPreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPreferenceViewController.swift; sourceTree = "<group>"; };
 		78F4434E231159EF005CCBF0 /* VideoCameraPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoCameraPreferenceViewController.xib; sourceTree = "<group>"; };
 		78F4434F231159EF005CCBF0 /* GeneralPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralPreferenceViewController.xib; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				78318710230E0D68009D7A0A /* CALayer.swift */,
+				78E10A40231493E6007848FB /* NSImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				78F44351231159EF005CCBF0 /* GeneralPreferenceViewController.swift in Sources */,
 				78318711230E0D68009D7A0A /* CALayer.swift in Sources */,
 				78F4435823115C27005CCBF0 /* PreferencesStyle+UserDefaults.swift in Sources */,
+				78E10A41231493E6007848FB /* NSImage.swift in Sources */,
 				78C61666230C9883009829DB /* FaceDetectionViewController.swift in Sources */,
 				78C61664230C9883009829DB /* AppDelegate.swift in Sources */,
 				78318713230E0DBA009D7A0A /* Utils.swift in Sources */,
