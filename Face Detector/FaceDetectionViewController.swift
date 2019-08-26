@@ -54,6 +54,12 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var faceDetected = false
     var faceAnalyzed = false
 
+    #if DEBUG
+    var collectionName = "facesDebug"
+    #else
+    var collectionName = "faces"
+    #endif
+
     var appTimer: Timer?
 
     private var analysisLabels = [String]()
@@ -845,13 +851,27 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                 let db = Firestore.firestore()
 
                 let randomName = randomString(length: 20)
-                db.collection("faces").document(randomName).setData([
-                    "url": downloadURL.absoluteString
-                ]) { err in
-                    if let err = err {
-                        print("Error writing document: \(err)")
-                    } else {
-                        print("Document successfully written!")
+
+                if self.faceAnalyzed && self.displayText != "" {
+                    db.collection(self.collectionName).document(randomName).setData([
+                        "url": downloadURL.absoluteString,
+                        "analysis" : self.displayText
+                    ]) { err in
+                        if let err = err {
+                            print("Error writing document: \(err)")
+                        } else {
+                            print("Document successfully written!")
+                        }
+                    }
+                } else {
+                    db.collection(self.collectionName).document(randomName).setData([
+                        "url": downloadURL.absoluteString
+                    ]) { err in
+                        if let err = err {
+                            print("Error writing document: \(err)")
+                        } else {
+                            print("Document successfully written!")
+                        }
                     }
                 }
             }
