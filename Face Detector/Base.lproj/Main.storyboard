@@ -79,13 +79,13 @@
                                                 <action selector="uploadVideoFrame:" target="Ady-hI-5gd" id="2Nz-kh-6eK"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Toggle Face Uploading" keyEquivalent="u" id="qIS-W8-SiK" userLabel="Toogle Face Detection Uploading">
+                                        <menuItem title="Toggle Face Uploading" tag="808" keyEquivalent="u" id="qIS-W8-SiK" userLabel="Toogle Face Detection Uploading">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="toggleUploading:" target="Ady-hI-5gd" id="OiB-CE-i8O"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Show Buttons" state="on" id="0SG-Vd-hVg">
+                                        <menuItem title="Show Buttons" state="on" keyEquivalent=" " id="0SG-Vd-hVg">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="toogleUIButtons:" target="Ady-hI-5gd" id="4Kl-cl-4SA"/>
@@ -142,7 +142,11 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Face_Detector" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Face_Detector" customModuleProvider="target">
+                    <connections>
+                        <outlet property="toggleUploadingMenuItem" destination="qIS-W8-SiK" id="4eA-L4-PZF"/>
+                    </connections>
+                </customObject>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -251,6 +255,7 @@
                     <connections>
                         <outlet property="buttonsView" destination="9PT-nn-vP8" id="lv7-7z-jum"/>
                         <outlet property="cameraView" destination="vbJ-hm-qX7" id="alj-cl-exT"/>
+                        <outlet property="toggleUploadsButton" destination="JYF-oN-0zn" id="8SR-Hz-kTT"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

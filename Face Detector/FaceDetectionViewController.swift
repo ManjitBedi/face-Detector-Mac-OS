@@ -24,6 +24,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     @IBOutlet weak var buttonsView: NSStackView!
 
+    @IBOutlet weak var toggleUploadsButton: NSButton!
+
 
     // AVCapture variables to hold sequence data
     var session: AVCaptureSession?
@@ -102,11 +104,20 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
 
     @IBAction func toggleUploadingFromButton(_ sender: NSButton) {
-        print("button state \(sender.state)")
         uploadDetectedFaces = Bool(truncating: NSNumber(value: sender.state.rawValue))
 
         if uploadDetectedFaces {
             timeToUploadImage = true
+        } else {
+            timeToUploadImage = false
+        }
+
+        if let menu = NSApplication.shared.mainMenu {
+            if  let controlMenu = menu.item(withTitle: "Control") {
+                if let menuItem = controlMenu.submenu!.item(withTag: 808) {
+                    menuItem.state = sender.state
+                }
+            }
         }
     }
 
@@ -114,6 +125,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     @IBAction func toggleUploading(_ sender: NSMenuItem) {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         uploadDetectedFaces = Bool(truncating: NSNumber(value: sender.state.rawValue))
+        toggleUploadsButton.state = sender.state
         if uploadDetectedFaces {
             timeToUploadImage = true
         }

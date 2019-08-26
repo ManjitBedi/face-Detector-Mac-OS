@@ -12,7 +12,7 @@
 		78318713230E0DBA009D7A0A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78318712230E0DBA009D7A0A /* Utils.swift */; };
 		78838B39230DB466009A2BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78838B38230DB466009A2BF9 /* GoogleService-Info.plist */; };
 		78C61664230C9883009829DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C61663230C9883009829DB /* AppDelegate.swift */; };
-		78C61666230C9883009829DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C61665230C9883009829DB /* ViewController.swift */; };
+		78C61666230C9883009829DB /* FaceDetectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C61665230C9883009829DB /* FaceDetectionViewController.swift */; };
 		78C61668230C9886009829DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78C61667230C9886009829DB /* Assets.xcassets */; };
 		78C6166B230C9886009829DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78C61669230C9886009829DB /* Main.storyboard */; };
 		78C61677230C9886009829DB /* Face_DetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C61676230C9886009829DB /* Face_DetectorTests.swift */; };
@@ -57,7 +57,7 @@
 		78838B38230DB466009A2BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		78C61660230C9883009829DB /* Face Detector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Face Detector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C61663230C9883009829DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		78C61665230C9883009829DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		78C61665230C9883009829DB /* FaceDetectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetectionViewController.swift; sourceTree = "<group>"; };
 		78C61667230C9886009829DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78C6166A230C9886009829DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		78C6166C230C9886009829DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 				785AD6C7230F1FF5001223C3 /* Cross Platform */,
 				7831870F230E0D48009D7A0A /* Extensions */,
 				78C61663230C9883009829DB /* AppDelegate.swift */,
-				78C61665230C9883009829DB /* ViewController.swift */,
+				78C61665230C9883009829DB /* FaceDetectionViewController.swift */,
 				78C61667230C9886009829DB /* Assets.xcassets */,
 				78C61669230C9886009829DB /* Main.storyboard */,
 				78C6166C230C9886009829DB /* Info.plist */,
@@ -400,7 +400,7 @@
 				78F44351231159EF005CCBF0 /* GeneralPreferenceViewController.swift in Sources */,
 				78318711230E0D68009D7A0A /* CALayer.swift in Sources */,
 				78F4435823115C27005CCBF0 /* PreferencesStyle+UserDefaults.swift in Sources */,
-				78C61666230C9883009829DB /* ViewController.swift in Sources */,
+				78C61666230C9883009829DB /* FaceDetectionViewController.swift in Sources */,
 				78C61664230C9883009829DB /* AppDelegate.swift in Sources */,
 				78318713230E0DBA009D7A0A /* Utils.swift in Sources */,
 				78F44354231159EF005CCBF0 /* VideoCameraPreferenceViewController.swift in Sources */,

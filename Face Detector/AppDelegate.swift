@@ -18,11 +18,12 @@ extension PreferencePane.Identifier {
 struct Constants {
     static let DeviceNamePref = "com.noorg.deviceName"
     static let ChangeDeviceNotification = "com.noorg.changeDevice"
+    static let ShowPrefsAtStartPref = "com.noorg.showPrefsAtStart"
 }
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    
     var preferencesStyle: PreferencesStyle {
         get {
             return PreferencesStyle.preferencesStyleFromUserDefaults()
@@ -39,11 +40,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
 
-        preferencesWindowController.show(preferencePane: .video)
+        configurePreferences()
+
+        let defaults = UserDefaults.standard
+        let showPrefs = defaults.bool(forKey: Constants.ShowPrefsAtStartPref)
+        if showPrefs {
+            preferencesWindowController.show(preferencePane: .video)
+        }
     }
 
     func applicationWillFinishLaunching(_ notification: Notification) {
-        //window.orderOut(self)
+
     }
 
 
@@ -73,6 +80,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             : .segmentedControl
 
         NSApp.relaunch()
+    }
+
+    func configurePreferences() {
+        UserDefaults.standard.register(defaults: [
+            Constants.ShowPrefsAtStartPref: true,
+            ])
     }
 }
 
