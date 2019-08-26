@@ -27,6 +27,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     @IBOutlet weak var toggleUploadsButton: NSButton!
 
 
+    @IBOutlet weak var resultTextField: NSTextField!
+
     // AVCapture variables to hold sequence data
     var session: AVCaptureSession?
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -44,14 +46,13 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var detectedFaceLandmarksShapeLayer: CAShapeLayer?
 
     var displayFaceLandmarks = false
-
     var uploadFrame = false
-
     var uploadDetectedFaces = false
     var timeToUploadImage = false
     var compositeOverlays = true
+    var saveImage = false
 
-    var saveImage = true
+    private var analysisLabels = [String]()
 
     // Vision requests
     private var detectionRequests: [VNDetectFaceRectanglesRequest]?
@@ -61,6 +62,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        loadAnalysisText()
 
         NotificationCenter.default.addObserver(self, selector: #selector(changeCameraDevice), name: NSNotification.Name(rawValue: Constants.ChangeDeviceNotification), object: nil)
 
@@ -134,6 +137,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     @IBAction func toogleUIButtons(_ sender: NSMenuItem) {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
         buttonsView.isHidden = !Bool(truncating: NSNumber(value: sender.state.rawValue))
+    }
+
+    @IBAction func saveDocument(_ sender: NSMenuItem) {
+        saveImage = true
     }
 
     // MARK:
@@ -644,13 +651,15 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                         return
                 }
 
-                if self.timeToUploadImage {
+                if self.timeToUploadImage || self.saveImage {
                     self.uploadDetectedFace(sampleBuffer: sampleBuffer)
                 }
+
 
                 // Perform all UI updates (drawing) on the main queue, not the background queue on which this handler is being called.
                 DispatchQueue.main.async {
                     self.drawFaceObservations(results)
+                    self.emotionAnalysis(results)
                 }
             })
 
@@ -710,7 +719,6 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
     func uploadDetectedFace(sampleBuffer: CMSampleBuffer) {
-        timeToUploadImage = false
         var image = getImageFromSampleBuffer( sampleBuffer: sampleBuffer)
 
         if compositeOverlays {
@@ -733,8 +741,18 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         if let tiff = image?.tiffRepresentation,
             let imageRep = NSBitmapImageRep(data: tiff)  {
             let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
-            uploadImageToFirebase(data: compressedData)
+
+            if saveImage {
+                saveImage = false
+                saveFile(data: compressedData)
+            }
+
+            if timeToUploadImage {
+                uploadImageToFirebase(data: compressedData)
+            }
         }
+
+        timeToUploadImage = false
 
         if uploadDetectedFaces {
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
@@ -832,5 +850,42 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         self.session = self.setupAVCaptureSession()
         self.prepareVisionRequest()
         self.session?.startRunning()
+    }
+
+    func saveFile(data: Data) {
+        guard let desktopPath = (NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true) as [String]).first else {
+            return
+        }
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy_MM_dd_hh_mm_ss"
+        let dateString = (formatter.string(from: Date()) as NSString) as String
+        let file = desktopPath + "/detected face image " + dateString + ".jpg"
+        let url = URL(fileURLWithPath: file)
+
+        try! data.write(to: url, options: .atomicWrite)
+    }
+
+    func loadAnalysisText() {
+        do {
+            // This solution assumes  you've got the file in your bundle
+            if let path = Bundle.main.path(forResource: "analysis", ofType: "txt"){
+                let data = try String(contentsOfFile:path, encoding: String.Encoding.utf8)
+                analysisLabels = data.components(separatedBy: "\n")
+            }
+        } catch let err as NSError {
+            // do something with Error
+            print(err)
+        }
+    }
+
+    func emotionAnalysis(_ faceObservations: [VNFaceObservation]) {
+        if analysisLabels.count > 0 {
+            var displayText = ""
+            if let random = analysisLabels.randomElement() {
+                displayText = random
+                resultTextField.stringValue = displayText
+            }
+        }
     }
 }

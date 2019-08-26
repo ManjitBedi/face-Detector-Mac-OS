@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -59,6 +60,23 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="File" id="cs5-3M-jwg">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="File" id="qk2-5m-uSG">
+                                    <items>
+                                        <menuItem title="Save" keyEquivalent="s" id="tY2-hR-hpC">
+                                            <connections>
+                                                <action selector="saveDocument:" target="Ady-hI-5gd" id="HDr-38-ZaN"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Print…" keyEquivalent="p" id="DAe-PL-PpH">
+                                            <connections>
+                                                <action selector="print:" target="Ady-hI-5gd" id="KUj-LL-Ybp"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem title="Control" id="dMs-cI-mzQ" userLabel="Control">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Control" id="bib-Uj-vzu">
@@ -89,11 +107,6 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="toogleUIButtons:" target="Ady-hI-5gd" id="4Kl-cl-4SA"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Print…" keyEquivalent="p" id="aTl-1u-JFS">
-                                            <connections>
-                                                <action selector="print:" target="Ady-hI-5gd" id="qaZ-4w-aoO"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -181,12 +194,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vbJ-hm-qX7" userLabel="Camera">
-                                <rect key="frame" x="0.0" y="0.0" width="800" height="599"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="vbJ-hm-qX7" userLabel="Camera">
+                                <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                                 <subviews>
-                                    <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9PT-nn-vP8">
-                                        <rect key="frame" x="88" y="571" width="599" height="21"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9PT-nn-vP8">
+                                        <rect key="frame" x="101" y="571" width="599" height="21"/>
                                         <subviews>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pNx-QF-nRu">
                                                 <rect key="frame" x="-6" y="-7" width="135" height="32"/>
@@ -242,7 +254,28 @@
                                             <real value="3.4028234663852886e+38"/>
                                         </customSpacing>
                                     </stackView>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IU2-Jf-oSR">
+                                        <rect key="frame" x="18" y="20" width="764" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="80" id="1NX-cu-Bq9"/>
+                                        </constraints>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="76F-1I-84T">
+                                            <font key="font" metaFont="system" size="52"/>
+                                            <color key="textColor" name="rectColor"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="IU2-Jf-oSR" firstAttribute="leading" secondItem="vbJ-hm-qX7" secondAttribute="leading" constant="20" id="6Mq-GN-qte"/>
+                                    <constraint firstAttribute="bottom" secondItem="IU2-Jf-oSR" secondAttribute="bottom" constant="20" id="Myb-Ee-wyY"/>
+                                    <constraint firstAttribute="trailing" secondItem="IU2-Jf-oSR" secondAttribute="trailing" constant="20" id="Wzx-1G-idB"/>
+                                    <constraint firstItem="9PT-nn-vP8" firstAttribute="centerX" secondItem="vbJ-hm-qX7" secondAttribute="centerX" id="aGL-Bk-D2V"/>
+                                    <constraint firstItem="9PT-nn-vP8" firstAttribute="top" secondItem="vbJ-hm-qX7" secondAttribute="top" constant="8" id="brs-dO-t51"/>
+                                    <constraint firstAttribute="bottom" secondItem="IU2-Jf-oSR" secondAttribute="bottom" constant="20" id="c8I-8r-Uxy"/>
+                                    <constraint firstAttribute="trailing" secondItem="IU2-Jf-oSR" secondAttribute="trailing" constant="20" id="fWD-cx-FhA"/>
+                                    <constraint firstItem="IU2-Jf-oSR" firstAttribute="leading" secondItem="vbJ-hm-qX7" secondAttribute="leading" constant="20" id="sbo-qy-VqV"/>
+                                </constraints>
                             </customView>
                         </subviews>
                         <constraints>
@@ -255,6 +288,7 @@
                     <connections>
                         <outlet property="buttonsView" destination="9PT-nn-vP8" id="lv7-7z-jum"/>
                         <outlet property="cameraView" destination="vbJ-hm-qX7" id="alj-cl-exT"/>
+                        <outlet property="resultTextField" destination="IU2-Jf-oSR" id="QnL-2f-sYb"/>
                         <outlet property="toggleUploadsButton" destination="JYF-oN-0zn" id="8SR-Hz-kTT"/>
                     </connections>
                 </viewController>
@@ -263,4 +297,9 @@
             <point key="canvasLocation" x="75" y="1182"/>
         </scene>
     </scenes>
+    <resources>
+        <namedColor name="rectColor">
+            <color red="0.015686274509803921" green="0.20000000000000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>
