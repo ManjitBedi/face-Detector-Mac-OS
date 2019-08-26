@@ -52,6 +52,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var compositeOverlays = true
     var saveImage = false
     var faceDetected = false
+    var faceAnalyzed = false
 
     var appTimer: Timer?
 
@@ -75,7 +76,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         self.prepareVisionRequest()
         self.session?.startRunning()
 
-        appTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+        appTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
 
     }
 
@@ -638,6 +639,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         if newTrackingRequests.isEmpty {
             // Nothing to track, so abort.
+            self.faceDetected = false
+            self.faceAnalyzed = false
             return
         }
 
@@ -666,12 +669,18 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                 DispatchQueue.main.async {
                     self.faceDetected = true
                     self.drawFaceObservations(results)
-                    self.emotionAnalysis(results)
+                }
+
+                if !self.faceAnalyzed && self.faceDetected {
+                    DispatchQueue.main.async {
+                        self.emotionAnalysis(results)
+                    }
                 }
             })
 
             guard let trackingResults = trackingRequest.results else {
                 self.faceDetected = false
+                self.faceAnalyzed = false
                 return
             }
 
@@ -892,6 +901,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         if analysisLabels.count > 0 {
             displayText = ""
             if let random = analysisLabels.randomElement() {
+                faceAnalyzed = true
                 displayText = random
             }
         }
