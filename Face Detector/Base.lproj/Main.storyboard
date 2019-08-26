@@ -260,7 +260,7 @@
                                             <constraint firstAttribute="height" constant="80" id="1NX-cu-Bq9"/>
                                         </constraints>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="76F-1I-84T">
-                                            <font key="font" metaFont="system" size="52"/>
+                                            <font key="font" metaFont="systemHeavy" size="52"/>
                                             <color key="textColor" name="rectColor"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>

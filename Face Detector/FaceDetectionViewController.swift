@@ -51,8 +51,12 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var timeToUploadImage = false
     var compositeOverlays = true
     var saveImage = false
+    var faceDetected = false
+
+    var appTimer: Timer?
 
     private var analysisLabels = [String]()
+    private var displayText = ""
 
     // Vision requests
     private var detectionRequests: [VNDetectFaceRectanglesRequest]?
@@ -70,6 +74,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         self.session = self.setupAVCaptureSession()
         self.prepareVisionRequest()
         self.session?.startRunning()
+
+        appTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+
     }
 
     override func viewDidAppear() {
@@ -655,15 +662,16 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                     self.uploadDetectedFace(sampleBuffer: sampleBuffer)
                 }
 
-
                 // Perform all UI updates (drawing) on the main queue, not the background queue on which this handler is being called.
                 DispatchQueue.main.async {
+                    self.faceDetected = true
                     self.drawFaceObservations(results)
                     self.emotionAnalysis(results)
                 }
             })
 
             guard let trackingResults = trackingRequest.results else {
+                self.faceDetected = false
                 return
             }
 
@@ -683,6 +691,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                 try imageRequestHandler.perform(faceLandmarkRequests)
             } catch let error as NSError {
                 NSLog("Failed to perform FaceLandmarkRequest: %@", error)
+                self.faceDetected = false
             }
         }
     }
@@ -881,11 +890,18 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     func emotionAnalysis(_ faceObservations: [VNFaceObservation]) {
         if analysisLabels.count > 0 {
-            var displayText = ""
+            displayText = ""
             if let random = analysisLabels.randomElement() {
                 displayText = random
-                resultTextField.stringValue = displayText
             }
+        }
+    }
+
+    @objc func runTimedCode() {
+        if faceDetected {
+            resultTextField.stringValue = displayText
+        } else {
+            resultTextField.stringValue = ""
         }
     }
 }
