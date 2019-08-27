@@ -18,6 +18,7 @@ import FirebaseAuth
 import FirebaseStorage
 
 
+
 class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     @IBOutlet weak var cameraView: NSView!
@@ -863,6 +864,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                 if self.faceAnalyzed && self.displayText != "" {
                     db.collection(self.collectionName).document(randomName).setData([
                         "url": downloadURL.absoluteString,
+                        "date": Timestamp(),
                         "analysis" : self.displayText
                     ]) { err in
                         if let err = err {
@@ -873,7 +875,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                     }
                 } else {
                     db.collection(self.collectionName).document(randomName).setData([
-                        "url": downloadURL.absoluteString
+                        "url": downloadURL.absoluteString,
+                        "date": Timestamp()
                     ]) { err in
                         if let err = err {
                             print("Error writing document: \(err)")
