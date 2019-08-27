@@ -400,6 +400,11 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     // MARK: Drawing Vision Observations
 
     fileprivate func setupVisionDrawingLayers() {
+
+        guard let lineWidth = getLineWidthPreference() else {
+            return
+        }
+
         let captureDeviceResolution = self.captureDeviceResolution
 
         let captureDeviceBounds = CGRect(x: 0,
@@ -432,7 +437,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         faceRectangleShapeLayer.position = captureDeviceBoundsCenterPoint
         faceRectangleShapeLayer.fillColor = nil
         faceRectangleShapeLayer.strokeColor = NSColor(named: "rectColor")?.cgColor
-        faceRectangleShapeLayer.lineWidth = 1
+        faceRectangleShapeLayer.lineWidth = CGFloat(lineWidth)
         faceRectangleShapeLayer.shadowOpacity = 0.7
         faceRectangleShapeLayer.shadowRadius = 5
 
@@ -443,7 +448,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         faceLandmarksShapeLayer.position = captureDeviceBoundsCenterPoint
         faceLandmarksShapeLayer.fillColor = nil
         faceLandmarksShapeLayer.strokeColor =  NSColor(named: "faceLandmarksColor")?.cgColor
-        faceLandmarksShapeLayer.lineWidth = 1
+        faceLandmarksShapeLayer.lineWidth = CGFloat(lineWidth)
         faceLandmarksShapeLayer.shadowOpacity = 0.7
         faceLandmarksShapeLayer.shadowRadius = 3
 
@@ -944,5 +949,16 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         } else {
             resultTextField.stringValue = ""
         }
+    }
+
+    func getLineWidthPreference() -> Float? {
+        let defaults = UserDefaults.standard
+        var value = defaults.float(forKey: Constants.OverlayLineWidthPref)
+
+        if value == 0 {
+            value = 1
+        }
+
+        return value
     }
 }

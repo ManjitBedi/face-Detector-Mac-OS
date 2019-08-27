@@ -19,19 +19,11 @@ struct Constants {
     static let DeviceNamePref = "com.noorg.deviceName"
     static let ChangeDeviceNotification = "com.noorg.changeDevice"
     static let ShowPrefsAtStartPref = "com.noorg.showPrefsAtStart"
+    static let OverlayLineWidthPref = "com.noorg.overlayLineWidth"
 }
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    
-    var preferencesStyle: PreferencesStyle {
-        get {
-            return PreferencesStyle.preferencesStyleFromUserDefaults()
-        }
-        set {
-            newValue.storeInUserDefaults()
-        }
-    }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
@@ -53,7 +45,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     }
 
-
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
@@ -65,7 +56,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     lazy var preferencesWindowController = PreferencesWindowController(
         preferencePanes: preferences,
-        style: preferencesStyle,
         animated: true,
         hidesToolbarForSingleItem: true
     )
@@ -74,17 +64,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         preferencesWindowController.show()
     }
 
-    @IBAction private func switchStyle(_ sender: Any) {
-        preferencesStyle = preferencesStyle == .segmentedControl
-            ? .toolbarItems
-            : .segmentedControl
-
-        NSApp.relaunch()
-    }
-
     func configurePreferences() {
         UserDefaults.standard.register(defaults: [
             Constants.ShowPrefsAtStartPref: true,
+            Constants.OverlayLineWidthPref: 1.0
             ])
     }
 }
