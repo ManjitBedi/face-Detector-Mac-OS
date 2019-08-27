@@ -72,10 +72,24 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="k40-kE-uEw">
+                    <rect key="frame" x="31" y="135" width="330" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="326" id="F8K-g6-3g6"/>
+                        <constraint firstAttribute="height" constant="17" id="lxK-tf-GqM"/>
+                    </constraints>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Quit &amp; re-launch the app for the change to take effect" id="aYp-kx-ef7">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
                 <constraint firstItem="AeJ-us-BJO" firstAttribute="centerX" secondItem="Xc1-oC-jbN" secondAttribute="centerX" constant="2.5" id="0D5-yt-qbT"/>
                 <constraint firstItem="ztr-Ih-nXH" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="31" id="0P0-EL-Wrp"/>
+                <constraint firstItem="k40-kE-uEw" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="33" id="9J1-cl-IYK"/>
+                <constraint firstItem="k40-kE-uEw" firstAttribute="top" secondItem="smc-Oo-Okq" secondAttribute="bottom" constant="20" id="Acm-FG-pTb"/>
                 <constraint firstAttribute="bottom" secondItem="Ome-NM-sJY" secondAttribute="bottom" constant="20" id="DHC-17-IGi"/>
                 <constraint firstItem="Ome-NM-sJY" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="GTs-IW-lwj"/>
                 <constraint firstItem="smc-Oo-Okq" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="83" id="Ggt-9d-FfO"/>

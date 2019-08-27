@@ -20,10 +20,8 @@ final class VideoCameraPreferenceViewController: NSViewController, PreferencePan
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-
         deviceNamesTableView.delegate = self
         deviceNamesTableView.dataSource = self
-
         deviceNamesTableView.target = self
         deviceNamesTableView.doubleAction = #selector(tableViewDoubleClick(_:))
 

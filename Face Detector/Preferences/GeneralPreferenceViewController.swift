@@ -20,8 +20,6 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-        print("view \(view.frame)")
-
 		// Setup stuff here
         let defaults = UserDefaults.standard
         let showPrefs = defaults.bool(forKey: Constants.ShowPrefsAtStartPref)
