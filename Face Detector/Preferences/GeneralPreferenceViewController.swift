@@ -40,8 +40,7 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
         var lineWidth: Float = 1.0
         let slider = sender as! NSSlider
         lineWidth = slider.floatValue
-        print("new width \(lineWidth)")
-        lineWidthLabel.stringValue = String(lineWidth)
+        lineWidthLabel.stringValue =  String(format: "%.01f", lineWidth)
         let defaults = UserDefaults.standard
         defaults.set(lineWidth, forKey: Constants.OverlayLineWidthPref)
     }
