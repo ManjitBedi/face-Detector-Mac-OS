@@ -24,7 +24,7 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
         let defaults = UserDefaults.standard
         let showPrefs = defaults.bool(forKey: Constants.ShowPrefsAtStartPref)
         showPrefsCheckBox.state = showPrefs ? NSControl.StateValue.on : NSControl.StateValue.off
-        // strokeThicknessSlider.floatValue = defaults.float(forKey: Constants.OverlayLineWidthPref)
+        strokeThicknessSlider.floatValue = defaults.float(forKey: Constants.OverlayLineWidthPref)
 	}
 
     @IBAction func updatePrefs(_ sender: NSButton) {
