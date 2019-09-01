@@ -65,6 +65,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     private var analysisLabels = [String]()
     private var displayText = ""
+    private var startLessFrequentText = 30
+    private var indices = [Int]()
 
     // Vision requests
     private var detectionRequests: [VNDetectFaceRectanglesRequest]?
@@ -926,9 +928,20 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             if let path = Bundle.main.path(forResource: "analysis", ofType: "txt"){
                 let data = try String(contentsOfFile:path, encoding: String.Encoding.utf8)
                 analysisLabels = data.components(separatedBy: "\n")
+
+                // more frequently used annotations appear 3 times in the indices array
+                for i in stride(from: 0, to: analysisLabels.count, by: 1) {
+                    if i < startLessFrequentText {
+                        indices.append(i)
+                        indices.append(i)
+                        indices.append(i)
+                    } else {
+                        indices.append(i)
+                    }
+                }
             }
         } catch let err as NSError {
-            // do something with Error
+            // TODO: do something with Error
             print(err)
         }
     }
@@ -936,9 +949,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     func emotionAnalysis(_ faceObservations: [VNFaceObservation]) {
         if analysisLabels.count > 0 {
             displayText = ""
-            if let random = analysisLabels.randomElement() {
+            if let random = indices.randomElement() {
+                let text = analysisLabels[random]
                 faceAnalyzed = true
-                displayText = random
+                displayText = text
             }
         }
     }
