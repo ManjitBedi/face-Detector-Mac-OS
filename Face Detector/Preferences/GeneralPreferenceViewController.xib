@@ -10,6 +10,7 @@
                 <outlet property="lineWidthLabel" destination="smc-Oo-Okq" id="Nhb-kz-Ekm"/>
                 <outlet property="showPrefsCheckBox" destination="Ome-NM-sJY" id="KnK-FQ-CVM"/>
                 <outlet property="strokeThicknessSlider" destination="9Mx-bT-9lN" id="9Dz-fL-FMw"/>
+                <outlet property="useRelativePosition" destination="iyJ-DF-Z8q" id="h2z-PF-QpO"/>
                 <outlet property="view" destination="c22-O7-iKe" id="ZQe-UH-LCX"/>
             </connections>
         </customObject>
@@ -84,10 +85,21 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iyJ-DF-Z8q">
+                    <rect key="frame" x="32" y="62" width="313" height="18"/>
+                    <buttonCell key="cell" type="check" title="Position annotation relative to the detected face" bezelStyle="regularSquare" imagePosition="left" inset="2" id="wIS-ee-GKq">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="updateUseRelativePositionPrefs:" target="-2" id="dR5-04-CmN"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="AeJ-us-BJO" firstAttribute="centerX" secondItem="Xc1-oC-jbN" secondAttribute="centerX" constant="2.5" id="0D5-yt-qbT"/>
                 <constraint firstItem="ztr-Ih-nXH" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="31" id="0P0-EL-Wrp"/>
+                <constraint firstItem="iyJ-DF-Z8q" firstAttribute="top" secondItem="AeJ-us-BJO" secondAttribute="bottom" constant="17" id="8bA-gU-uXD"/>
                 <constraint firstItem="k40-kE-uEw" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="33" id="9J1-cl-IYK"/>
                 <constraint firstItem="k40-kE-uEw" firstAttribute="top" secondItem="smc-Oo-Okq" secondAttribute="bottom" constant="20" id="Acm-FG-pTb"/>
                 <constraint firstAttribute="bottom" secondItem="Ome-NM-sJY" secondAttribute="bottom" constant="20" id="DHC-17-IGi"/>
@@ -103,6 +115,7 @@
                 <constraint firstItem="smc-Oo-Okq" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="137" id="qIz-ci-0uG"/>
                 <constraint firstItem="Xc1-oC-jbN" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="298" id="sQd-RT-oXo"/>
                 <constraint firstItem="smc-Oo-Okq" firstAttribute="leading" secondItem="9Mx-bT-9lN" secondAttribute="trailing" constant="12" id="sg7-Az-DjQ"/>
+                <constraint firstItem="iyJ-DF-Z8q" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="34" id="vHr-yJ-oSt"/>
             </constraints>
             <point key="canvasLocation" x="55" y="154"/>
         </customView>

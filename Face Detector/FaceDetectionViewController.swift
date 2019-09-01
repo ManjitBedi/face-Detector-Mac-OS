@@ -27,8 +27,11 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     @IBOutlet weak var toggleUploadsButton: NSButton!
 
-
     @IBOutlet weak var resultTextField: NSTextField!
+
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
 
     // AVCapture variables to hold sequence data
     var session: AVCaptureSession?
@@ -54,6 +57,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var saveImage = false
     var faceDetected = false
     var faceAnalyzed = false
+    var displayRelativePref = false
 
     #if DEBUG
     var collectionName = "facesDebug"
@@ -86,6 +90,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         self.session?.startRunning()
 
         appTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+
+        let defaults = UserDefaults.standard
+        displayRelativePref = defaults.bool(forKey: Constants.AnnotationPositionRelativePref)
 
     }
 
@@ -515,10 +522,16 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         let faceBounds = VNImageRectForNormalizedRect(faceObservation.boundingBox, Int(displaySize.width), Int(displaySize.height))
         faceRectanglePath.addRect(faceBounds)
 
+
+        if faceAnalyzed && displayRelativePref {
+            updateAnnotationPosition(faceBounds: faceBounds)
+        }
+
         if let landmarks = faceObservation.landmarks {
             // Landmarks are relative to -- and normalized within --- face bounds
             let affineTransform = CGAffineTransform(translationX: faceBounds.origin.x, y: faceBounds.origin.y)
                 .scaledBy(x: faceBounds.size.width, y: faceBounds.size.height)
+
 
             // Treat eyebrows and lines as open-ended regions when drawing paths.
             let openLandmarkRegions: [VNFaceLandmarkRegion2D?] = [
@@ -974,5 +987,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         }
 
         return value
+    }
+
+    func updateAnnotationPosition(faceBounds: CGRect) {
+        leadingConstraint.constant = faceBounds.origin.x - resultTextField.frame.size.width/2
+        topConstraint.constant = faceBounds.origin.y + faceBounds.size.height
     }
 }

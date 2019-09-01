@@ -9,6 +9,8 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
     @IBOutlet weak var lineWidthLabel: NSTextField!
     
+    @IBOutlet weak var useRelativePosition: NSButton!
+
     let preferencePaneIdentifier = PreferencePane.Identifier.general
 	let preferencePaneTitle = "General"
 	let toolbarItemIcon = NSImage(named: NSImage.preferencesGeneralName)!
@@ -25,6 +27,8 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
         let showPrefs = defaults.bool(forKey: Constants.ShowPrefsAtStartPref)
         showPrefsCheckBox.state = showPrefs ? NSControl.StateValue.on : NSControl.StateValue.off
         strokeThicknessSlider.floatValue = defaults.float(forKey: Constants.OverlayLineWidthPref)
+        let displayRelartivePrefs = defaults.bool(forKey: Constants.AnnotationPositionRelativePref)
+        useRelativePosition.state = displayRelartivePrefs ? NSControl.StateValue.on : NSControl.StateValue.off
 	}
 
     @IBAction func updatePrefs(_ sender: NSButton) {
@@ -41,5 +45,11 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
         lineWidthLabel.stringValue =  String(format: "%.01f", lineWidth)
         let defaults = UserDefaults.standard
         defaults.set(lineWidth, forKey: Constants.OverlayLineWidthPref)
+    }
+
+    @IBAction func updateUseRelativePositionPrefs(_ sender: NSButton) {
+        let useRelativePosition = Bool(truncating: NSNumber(value: sender.state.rawValue))
+        let defaults = UserDefaults.standard
+        defaults.set(useRelativePosition, forKey: Constants.AnnotationPositionRelativePref)
     }
 }

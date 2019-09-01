@@ -258,10 +258,12 @@
                                     </textField>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="IU2-Jf-oSR" firstAttribute="centerX" secondItem="vbJ-hm-qX7" secondAttribute="centerX" id="GV8-lg-PpA"/>
-                                    <constraint firstAttribute="bottom" secondItem="IU2-Jf-oSR" secondAttribute="bottom" constant="20" id="Myb-Ee-wyY"/>
+                                    <constraint firstItem="IU2-Jf-oSR" firstAttribute="top" secondItem="9PT-nn-vP8" secondAttribute="bottom" constant="517" placeholder="YES" id="XNZ-sF-y4p"/>
                                     <constraint firstItem="9PT-nn-vP8" firstAttribute="centerX" secondItem="vbJ-hm-qX7" secondAttribute="centerX" id="aGL-Bk-D2V"/>
+                                    <constraint firstAttribute="bottom" secondItem="IU2-Jf-oSR" secondAttribute="bottom" constant="20" id="b6Y-hv-ZVx"/>
                                     <constraint firstItem="9PT-nn-vP8" firstAttribute="top" secondItem="vbJ-hm-qX7" secondAttribute="top" constant="8" id="brs-dO-t51"/>
+                                    <constraint firstItem="IU2-Jf-oSR" firstAttribute="centerX" secondItem="vbJ-hm-qX7" secondAttribute="centerX" id="g68-TT-nqE"/>
+                                    <constraint firstItem="IU2-Jf-oSR" firstAttribute="leading" secondItem="vbJ-hm-qX7" secondAttribute="leading" constant="396" placeholder="YES" id="zVB-ES-XzF"/>
                                 </constraints>
                             </customView>
                         </subviews>
@@ -275,8 +277,10 @@
                     <connections>
                         <outlet property="buttonsView" destination="9PT-nn-vP8" id="lv7-7z-jum"/>
                         <outlet property="cameraView" destination="vbJ-hm-qX7" id="alj-cl-exT"/>
+                        <outlet property="leadingConstraint" destination="zVB-ES-XzF" id="fkd-xz-bPY"/>
                         <outlet property="resultTextField" destination="IU2-Jf-oSR" id="QnL-2f-sYb"/>
                         <outlet property="toggleUploadsButton" destination="JYF-oN-0zn" id="8SR-Hz-kTT"/>
+                        <outlet property="topConstraint" destination="XNZ-sF-y4p" id="osx-qB-lcZ"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
