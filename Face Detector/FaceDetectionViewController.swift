@@ -59,6 +59,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var faceAnalyzed = false
     var displayRelativePref = false
 
+    // for debugging
+    var prevScaleX: CGFloat = 0.0
+    var prevScaleY: CGFloat = 0.0
+
     #if DEBUG
     var collectionName = "facesDebug"
     #else
@@ -408,6 +412,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     // MARK: Drawing Vision Observations
 
+    /// - This method gets called once when a capture device is configured.
+    /// Changing the device will result in this method being called again.
     fileprivate func setupVisionDrawingLayers() {
 
         guard let lineWidth = getLineWidthPreference() else {
@@ -415,6 +421,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         }
 
         let captureDeviceResolution = self.captureDeviceResolution
+
+        print("capture resolution \(self.captureDeviceResolution)")
+        print("camera preview frame \(self.cameraView.frame)")
 
         let captureDeviceBounds = CGRect(x: 0,
                                          y: 0,
@@ -437,6 +446,11 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         overlayLayer.anchorPoint = normalizedCenterPoint
         overlayLayer.bounds = captureDeviceBounds
         overlayLayer.position = CGPoint(x: rootLayer.bounds.midX, y: rootLayer.bounds.midY)
+
+        #if DEBUG
+        print("overlay position \(overlayLayer.position)")
+        #endif
+
         overlayLayer.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
 
         let faceRectangleShapeLayer = CAShapeLayer()
@@ -500,7 +514,20 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         // Cover entire screen UI.
         let rootLayerBounds = rootLayer.bounds
+
         overlayLayer.position = CGPoint(x: rootLayerBounds.midX, y: rootLayerBounds.midY)
+
+        // Debug code
+        #if DEBUG
+        if prevScaleX != scaleX || prevScaleY != scaleY {
+            print("window resized: \(previewLayer.frame.size) scale (\(scaleX), \(scaleX))")
+            print("root layer bounds: \(rootLayerBounds)")
+            print("overlay frame: \(overlayLayer.frame)")
+            print("overlay bounds: \(overlayLayer.bounds)")
+        }
+        prevScaleX = scaleX
+        prevScaleY = scaleY
+        #endif
     }
 
     fileprivate func addPoints(in landmarkRegion: VNFaceLandmarkRegion2D, to path: CGMutablePath, applying affineTransform: CGAffineTransform, closingWhenComplete closePath: Bool) {
