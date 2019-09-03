@@ -3,13 +3,15 @@ import Preferences
 
 final class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
-    @IBOutlet weak var showPrefsCheckBox: NSButton!
+    @IBOutlet weak var showPrefsButton: NSButton!
 
     @IBOutlet weak var strokeThicknessSlider: NSSlider!
 
     @IBOutlet weak var lineWidthLabel: NSTextField!
     
-    @IBOutlet weak var useRelativePosition: NSButton!
+    @IBOutlet weak var useRelativePositionButton: NSButton!
+
+    @IBOutlet weak var uploadSmallerImagesButton: NSButton!
 
     let preferencePaneIdentifier = PreferencePane.Identifier.general
 	let preferencePaneTitle = "General"
@@ -25,10 +27,12 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
 		// Setup stuff here
         let defaults = UserDefaults.standard
         let showPrefs = defaults.bool(forKey: Constants.ShowPrefsAtStartPref)
-        showPrefsCheckBox.state = showPrefs ? NSControl.StateValue.on : NSControl.StateValue.off
+        showPrefsButton.state = showPrefs ? NSControl.StateValue.on : NSControl.StateValue.off
         strokeThicknessSlider.floatValue = defaults.float(forKey: Constants.OverlayLineWidthPref)
-        let displayRelartivePrefs = defaults.bool(forKey: Constants.AnnotationPositionRelativePref)
-        useRelativePosition.state = displayRelartivePrefs ? NSControl.StateValue.on : NSControl.StateValue.off
+        let displayRelativePref = defaults.bool(forKey: Constants.AnnotationPositionRelativePref)
+        useRelativePositionButton.state = displayRelativePref ? NSControl.StateValue.on : NSControl.StateValue.off
+        let uploadSmallerImagesPref = defaults.bool(forKey: Constants.UploadSmallerImagesPref)
+        uploadSmallerImagesButton.state = uploadSmallerImagesPref ? NSControl.StateValue.on : NSControl.StateValue.off
 	}
 
     @IBAction func updatePrefs(_ sender: NSButton) {
@@ -51,5 +55,11 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
         let useRelativePosition = Bool(truncating: NSNumber(value: sender.state.rawValue))
         let defaults = UserDefaults.standard
         defaults.set(useRelativePosition, forKey: Constants.AnnotationPositionRelativePref)
+    }
+
+    @IBAction func updateUploadSmallerImagesPref(_ sender: NSButton) {
+        let uploadSmallerImages = Bool(truncating: NSNumber(value: sender.state.rawValue))
+        let defaults = UserDefaults.standard
+        defaults.set(uploadSmallerImages, forKey: Constants.UploadSmallerImagesPref)
     }
 }

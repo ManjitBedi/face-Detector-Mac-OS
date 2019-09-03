@@ -58,6 +58,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var faceDetected = false
     var faceAnalyzed = false
     var displayRelativePref = false
+    var uploadSmallerImagesPref = true
 
     // for debugging
     var prevScaleX: CGFloat = 0.0
@@ -97,6 +98,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         let defaults = UserDefaults.standard
         displayRelativePref = defaults.bool(forKey: Constants.AnnotationPositionRelativePref)
+        uploadSmallerImagesPref = defaults.bool(forKey: Constants.UploadSmallerImagesPref)
 
     }
 
@@ -759,28 +761,36 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         if compositeOverlays {
             let overlaysImage = detectionOverlayLayer?.image()
             let combinedImage = NSImage(size: image.size)
-
             // Draw the images into a new image!
             combinedImage.lockFocus()
             let rect = CGRect(origin: CGPoint.zero, size: image.size)
             // draw the video frame
             image.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
-
             // draw the overlays
             overlaysImage!.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
-
             combinedImage.unlockFocus()
+            convertAndUploadImage(sourceImage: combinedImage)
+        } else {
+            convertAndUploadImage(sourceImage: image)
+        }
+    }
 
-            if let tiff = combinedImage.tiffRepresentation,
+    func convertAndUploadImage(sourceImage: NSImage) {
+        if uploadSmallerImagesPref {
+            let reducedSize = CGSize(width: 0.25 * sourceImage.size.width, height: 0.25 * sourceImage.size.height)
+            if let resizedImage = sourceImage.resized(to: reducedSize) {
+                if let tiff = resizedImage.tiffRepresentation,
+                    let imageRep = NSBitmapImageRep(data: tiff)  {
+                    let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
+                    uploadImageToFirebase(data: compressedData)
+                }
+            }
+        } else {
+            if let tiff = sourceImage.tiffRepresentation,
                 let imageRep = NSBitmapImageRep(data: tiff)  {
                 let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
                 uploadImageToFirebase(data: compressedData)
             }
-
-        } else if let tiff = image.tiffRepresentation,
-            let imageRep = NSBitmapImageRep(data: tiff)  {
-            let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
-            uploadImageToFirebase(data: compressedData)
         }
     }
 
@@ -816,6 +826,13 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             image = combinedImage
         } else {
             image = videoImage
+        }
+
+        if uploadSmallerImagesPref {
+            let reducedSize = CGSize(width: 0.25 * image.size.width, height: 0.25 * image.size.height)
+            if let resizedImage = image.resized(to: reducedSize) {
+               image = resizedImage
+            }
         }
 
         if let tiff = image.tiffRepresentation,
@@ -878,7 +895,11 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         // Create a root reference
         let storageRef = Storage.storage().reference()
 
+        #if DEBUG
+        let imageRef = storageRef.child("facesDebug/" + randomString(length: 20) + ".jpg")
+        #else
         let imageRef = storageRef.child("faces/" + randomString(length: 20) + ".jpg")
+        #endif
 
         imageRef.putData(data, metadata: nil) { metadata, error in
 
@@ -903,9 +924,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                 }
 
                 // Add the image to the database
-                // let userID = Auth.auth().currentUser?.uid
                 let db = Firestore.firestore()
-
                 let randomName = randomString(length: 20)
 
                 if self.faceAnalyzed && self.displayText != "" {

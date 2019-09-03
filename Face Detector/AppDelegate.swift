@@ -21,6 +21,7 @@ struct Constants {
     static let ShowPrefsAtStartPref = "com.noorg.showPrefsAtStart"
     static let OverlayLineWidthPref = "com.noorg.overlayLineWidth"
     static let AnnotationPositionRelativePref = "com.noorg.positionRelative"
+    static let UploadSmallerImagesPref = "com.noorg.uploadSmaller"
 }
 
 @NSApplicationMain
@@ -69,7 +70,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         UserDefaults.standard.register(defaults: [
             Constants.ShowPrefsAtStartPref: true,
             Constants.OverlayLineWidthPref: 1.0,
-            Constants.AnnotationPositionRelativePref: false
+            Constants.AnnotationPositionRelativePref: false,
+            Constants.UploadSmallerImagesPref: true
             ])
     }
 }

@@ -8,9 +8,10 @@
         <customObject id="-2" userLabel="File's Owner" customClass="GeneralPreferenceViewController" customModule="Face_Detector" customModuleProvider="target">
             <connections>
                 <outlet property="lineWidthLabel" destination="smc-Oo-Okq" id="Nhb-kz-Ekm"/>
-                <outlet property="showPrefsCheckBox" destination="Ome-NM-sJY" id="KnK-FQ-CVM"/>
+                <outlet property="showPrefsButton" destination="Ome-NM-sJY" id="KnK-FQ-CVM"/>
                 <outlet property="strokeThicknessSlider" destination="9Mx-bT-9lN" id="9Dz-fL-FMw"/>
-                <outlet property="useRelativePosition" destination="iyJ-DF-Z8q" id="h2z-PF-QpO"/>
+                <outlet property="uploadSmallerImagesButton" destination="i85-cK-b9f" id="Obj-yR-Tp6"/>
+                <outlet property="useRelativePositionButton" destination="iyJ-DF-Z8q" id="h2z-PF-QpO"/>
                 <outlet property="view" destination="c22-O7-iKe" id="ZQe-UH-LCX"/>
             </connections>
         </customObject>
@@ -86,13 +87,24 @@
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iyJ-DF-Z8q">
-                    <rect key="frame" x="32" y="62" width="313" height="18"/>
-                    <buttonCell key="cell" type="check" title="Position annotation relative to the detected face" bezelStyle="regularSquare" imagePosition="left" inset="2" id="wIS-ee-GKq">
+                    <rect key="frame" x="32" y="62" width="271" height="18"/>
+                    <buttonCell key="cell" type="check" title="Anchor annotation to face (experimental)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="wIS-ee-GKq">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
                         <action selector="updateUseRelativePositionPrefs:" target="-2" id="dR5-04-CmN"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i85-cK-b9f">
+                    <rect key="frame" x="290" y="174" width="162" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Upload Smaller Images" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="X13-Oa-JVp">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="updateUploadSmallerImagesPref:" target="-2" id="L38-Vk-tF8"/>
                     </connections>
                 </button>
             </subviews>
