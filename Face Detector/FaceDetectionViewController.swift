@@ -663,7 +663,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                 }
 
                 if self.timeToUploadImage || self.saveImage {
-                    self.uploadDetectedFace(sampleBuffer: sampleBuffer)
+                    DispatchQueue.main.async {
+                        self.uploadDetectedFace(sampleBuffer: sampleBuffer)
+                    }
                 }
 
                 // Perform all UI updates (drawing) on the main queue, not the background queue on which this handler is being called.
