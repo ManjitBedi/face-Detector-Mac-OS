@@ -43,7 +43,7 @@ PODS:
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleDataTransport (1.1.2)
+  - GoogleDataTransport (1.1.3)
   - GoogleDataTransportCCTSupport (1.0.2):
     - GoogleDataTransport (~> 1.1)
     - nanopb
@@ -129,16 +129,16 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   FirebaseAuth:
-    :commit: 07a64930e8283f5a01e8aab6f4a8dc5ef6eb2ca7
+    :commit: b594723572311bb52fc9e2c54a50ddf08b4fbecc
     :git: https://github.com/firebase/firebase-ios-sdk.git
   FirebaseCore:
-    :commit: 07a64930e8283f5a01e8aab6f4a8dc5ef6eb2ca7
+    :commit: b594723572311bb52fc9e2c54a50ddf08b4fbecc
     :git: https://github.com/firebase/firebase-ios-sdk.git
   FirebaseFirestore:
-    :commit: 07a64930e8283f5a01e8aab6f4a8dc5ef6eb2ca7
+    :commit: b594723572311bb52fc9e2c54a50ddf08b4fbecc
     :git: https://github.com/firebase/firebase-ios-sdk.git
   FirebaseStorage:
-    :commit: 07a64930e8283f5a01e8aab6f4a8dc5ef6eb2ca7
+    :commit: b594723572311bb52fc9e2c54a50ddf08b4fbecc
     :git: https://github.com/firebase/firebase-ios-sdk.git
 
 SPEC CHECKSUMS:
@@ -151,7 +151,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnosticsInterop: 6829da2b8d1fc795ff1bd99df751d3788035d2cb
   FirebaseFirestore: 2291d8689821e69e2094dceadb3e5d722f3d5925
   FirebaseStorage: 618dd8fd886b30adf6e5d1915b1f5c18cb5c3944
-  GoogleDataTransport: 9c3d63ed82f882a9a74d4be67dd7ad01bf046102
+  GoogleDataTransport: 91e682bd60a49d3f8f69f2e909a66efaed5a1e7a
   GoogleDataTransportCCTSupport: 6b545f7149111180763dc18c6f372c963de4a310
   GoogleUtilities: e7dc37039b19df7fe543479d3e4a02ac8d11bb69
   "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83

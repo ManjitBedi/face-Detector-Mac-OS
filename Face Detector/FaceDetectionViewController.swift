@@ -58,7 +58,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var faceDetected = false
     var faceAnalyzed = false
     var displayRelativePref = false
-    var uploadSmallerImagesPref = true
+    var uploadSmallerImagesPref = false
 
     // for debugging
     var prevScaleX: CGFloat = 0.0
@@ -119,7 +119,6 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
     @IBAction func uploadTestImage(_ sender: Any) {
-        print("\(#function)")
         if let woodyImage = NSImage(named: "Woody") {
             guard let tiff = woodyImage.tiffRepresentation,
                 let imageRep = NSBitmapImageRep(data: tiff) else {
@@ -172,24 +171,6 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     @IBAction func saveDocument(_ sender: NSMenuItem) {
         saveImage = true
     }
-
-    // MARK:
-
-    func captureStillImage() {
-        let stillImageOutput = AVCaptureStillImageOutput.init()
-        stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecType.jpeg]
-        session!.addOutput(stillImageOutput)
-
-        if let videoConnection = stillImageOutput.connection(with:AVMediaType.video){
-            stillImageOutput.captureStillImageAsynchronously(from:videoConnection, completionHandler: {
-                (sampleBuffer, error) in
-                if let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer!) {
-                    self.uploadImageToFirebase(data: imageData)
-                }
-            })
-        }
-    }
-
 
     // MARK: AVCapture Setup
 
@@ -851,6 +832,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         timeToUploadImage = false
 
+        // do another image upload in 5 seconds
         if uploadDetectedFaces {
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 self.timeToUploadImage = true

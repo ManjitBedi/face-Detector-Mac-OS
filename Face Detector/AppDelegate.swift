@@ -71,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Constants.ShowPrefsAtStartPref: true,
             Constants.OverlayLineWidthPref: 1.0,
             Constants.AnnotationPositionRelativePref: false,
-            Constants.UploadSmallerImagesPref: true
+            Constants.UploadSmallerImagesPref: false
             ])
     }
 }
