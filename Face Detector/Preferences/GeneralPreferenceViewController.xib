@@ -20,16 +20,8 @@
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
             <rect key="frame" x="0.0" y="0.0" width="668" height="272"/>
             <subviews>
-                <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xc1-oC-jbN">
-                    <rect key="frame" x="296" y="230" width="72" height="24"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="General" id="kEa-Ts-PrR">
-                        <font key="font" metaFont="system" size="20"/>
-                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
                 <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AeJ-us-BJO">
-                    <rect key="frame" x="242" y="88" width="185" height="32"/>
+                    <rect key="frame" x="20" y="231" width="185" height="32"/>
                     <buttonCell key="cell" type="push" title="Switch Preference Style" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pPv-HR-smI">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -107,20 +99,29 @@
                         <action selector="updateUploadSmallerImagesPref:" target="-2" id="L38-Vk-tF8"/>
                     </connections>
                 </button>
+                <textField hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xc1-oC-jbN">
+                    <rect key="frame" x="294" y="230" width="72" height="24"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="General" id="kEa-Ts-PrR">
+                        <font key="font" metaFont="system" size="20"/>
+                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="AeJ-us-BJO" firstAttribute="centerX" secondItem="Xc1-oC-jbN" secondAttribute="centerX" constant="2.5" id="0D5-yt-qbT"/>
+                <constraint firstItem="AeJ-us-BJO" firstAttribute="centerX" secondItem="Xc1-oC-jbN" secondAttribute="centerX" constant="-219.5" id="0D5-yt-qbT"/>
                 <constraint firstItem="ztr-Ih-nXH" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="31" id="0P0-EL-Wrp"/>
-                <constraint firstItem="iyJ-DF-Z8q" firstAttribute="top" secondItem="AeJ-us-BJO" secondAttribute="bottom" constant="17" id="8bA-gU-uXD"/>
+                <constraint firstItem="iyJ-DF-Z8q" firstAttribute="top" secondItem="AeJ-us-BJO" secondAttribute="bottom" constant="160" id="8bA-gU-uXD"/>
                 <constraint firstItem="k40-kE-uEw" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="33" id="9J1-cl-IYK"/>
                 <constraint firstItem="k40-kE-uEw" firstAttribute="top" secondItem="smc-Oo-Okq" secondAttribute="bottom" constant="20" id="Acm-FG-pTb"/>
                 <constraint firstAttribute="bottom" secondItem="Ome-NM-sJY" secondAttribute="bottom" constant="20" id="DHC-17-IGi"/>
                 <constraint firstItem="Ome-NM-sJY" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="GTs-IW-lwj"/>
                 <constraint firstItem="smc-Oo-Okq" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="83" id="Ggt-9d-FfO"/>
-                <constraint firstItem="AeJ-us-BJO" firstAttribute="top" secondItem="Xc1-oC-jbN" secondAttribute="bottom" constant="114" id="PDh-Co-vOC"/>
+                <constraint firstItem="AeJ-us-BJO" firstAttribute="top" secondItem="Xc1-oC-jbN" secondAttribute="bottom" constant="-29" id="PDh-Co-vOC"/>
                 <constraint firstItem="9Mx-bT-9lN" firstAttribute="top" secondItem="ztr-Ih-nXH" secondAttribute="bottom" constant="20" id="WcC-8T-5iy"/>
                 <constraint firstAttribute="bottom" secondItem="Xc1-oC-jbN" secondAttribute="bottom" constant="230" id="Ygh-kW-pw7"/>
                 <constraint firstAttribute="trailing" secondItem="Xc1-oC-jbN" secondAttribute="trailing" constant="302" id="dPQ-fn-EVx"/>
+                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="272" id="laM-7t-Wab"/>
                 <constraint firstItem="smc-Oo-Okq" firstAttribute="centerY" secondItem="9Mx-bT-9lN" secondAttribute="centerY" id="lhq-dU-R6M"/>
                 <constraint firstItem="9Mx-bT-9lN" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="33" id="nxb-Sx-TyH"/>
                 <constraint firstItem="Xc1-oC-jbN" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="18" id="obX-e4-hYJ"/>

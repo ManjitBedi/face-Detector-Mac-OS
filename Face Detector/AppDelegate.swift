@@ -22,6 +22,8 @@ struct Constants {
     static let OverlayLineWidthPref = "com.noorg.overlayLineWidth"
     static let AnnotationPositionRelativePref = "com.noorg.positionRelative"
     static let UploadSmallerImagesPref = "com.noorg.uploadSmaller"
+    static let UploadTimePeriodPref = "com.noorg.uploadPeriod"
+    static let TrackingConfidencePref = "com.noorg.trackingConfidence"
 }
 
 @NSApplicationMain
@@ -71,7 +73,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Constants.ShowPrefsAtStartPref: true,
             Constants.OverlayLineWidthPref: 1.0,
             Constants.AnnotationPositionRelativePref: false,
-            Constants.UploadSmallerImagesPref: false
+            Constants.UploadSmallerImagesPref: false,
+            Constants.UploadTimePeriodPref: 10.0,
+            Constants.TrackingConfidencePref: 0.5
             ])
     }
 }

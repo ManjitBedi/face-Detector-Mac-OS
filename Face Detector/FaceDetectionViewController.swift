@@ -59,6 +59,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var faceAnalyzed = false
     var uploadSmallerImagesPref = false
 
+    var confidenceThreshold: VNConfidence = 0.5
+
+    var uploadTimePeriod = 10.0
+
     // for debugging
     var prevScaleX: CGFloat = 0.0
     var prevScaleY: CGFloat = 0.0
@@ -628,7 +632,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             }
 
             if !trackingRequest.isLastFrame {
-                if observation.confidence > 0.3 {
+                if observation.confidence > confidenceThreshold {
                     trackingRequest.inputObservation = observation
                 } else {
                     trackingRequest.isLastFrame = true
@@ -808,7 +812,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         // do another image upload in 5 seconds
         if uploadDetectedFaces {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + uploadTimePeriod) {
                 self.timeToUploadImage = true
             }
         }

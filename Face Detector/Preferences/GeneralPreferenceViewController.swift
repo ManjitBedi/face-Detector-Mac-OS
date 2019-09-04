@@ -13,6 +13,12 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
     @IBOutlet weak var uploadSmallerImagesButton: NSButton!
 
+    @IBOutlet weak var confidenceThresholdSlider: NSSlider!
+    @IBOutlet weak var confidenceThresholdLabel: NSTextField!
+
+    @IBOutlet weak var uploadPeriodSlider: NSSlider!
+    @IBOutlet weak var uploadPeriodLabel: NSTextField!
+
     let preferencePaneIdentifier = PreferencePane.Identifier.general
 	let preferencePaneTitle = "General"
 	let toolbarItemIcon = NSImage(named: NSImage.preferencesGeneralName)!
@@ -61,5 +67,13 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
         let uploadSmallerImages = Bool(truncating: NSNumber(value: sender.state.rawValue))
         let defaults = UserDefaults.standard
         defaults.set(uploadSmallerImages, forKey: Constants.UploadSmallerImagesPref)
+    }
+
+    @IBAction func updateUploadPeriod(_ sender: NSButton) {
+        let slider = sender as! NSSlider
+    }
+
+    @IBAction func updateTracingConfidenceThreshold(_ sender: NSButton) {
+        let slider = sender as! NSSlider
     }
 }
