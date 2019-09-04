@@ -69,11 +69,13 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
         defaults.set(uploadSmallerImages, forKey: Constants.UploadSmallerImagesPref)
     }
 
-    @IBAction func updateUploadPeriod(_ sender: NSButton) {
-        let slider = sender as! NSSlider
+    @IBAction func updateTrackingConfidence(_ sender: NSSlider) {
+        let threshold = sender.floatValue
+        confidenceThresholdLabel.stringValue =  String(format: "%.01f", threshold)
     }
 
-    @IBAction func updateTracingConfidenceThreshold(_ sender: NSButton) {
-        let slider = sender as! NSSlider
+    @IBAction func updateUploadPeriod(_ sender: NSSlider) {
+        let uploadPeriod = sender.floatValue
+        uploadPeriodLabel.stringValue =  String(format: "%.01f", uploadPeriod)
     }
 }
