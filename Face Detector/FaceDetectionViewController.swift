@@ -492,8 +492,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         // iOS specific code
         // let videoPreviewRect = previewLayer.layerRectConverted(fromMetadataOutputRect: CGRect(x: 0, y: 0, width: 1, height: 1))
 
-         let videoPreviewRect = previewLayer.frame
+        let videoPreviewRect = previewLayer.frame
 
+        // TODO: does this code need more work to handle the window being re-sized? (high priority)
         var scaleX: CGFloat
         var scaleY: CGFloat
 
