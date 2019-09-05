@@ -34,7 +34,9 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
 		// Setup stuff here
         let showPrefs = Defaults[.showPrefsPane]
         showPrefsButton.state = showPrefs ? NSControl.StateValue.on : NSControl.StateValue.off
+        let strokeWidth = Float(Defaults[.strokeWidth])
         strokeThicknessSlider.floatValue = Float(Defaults[.strokeWidth])
+        lineWidthLabel.stringValue = String(format: "%.01f", strokeWidth)
         let displayRelativePref = Defaults[.annotationPositionRelative]
         useRelativePositionButton.state = displayRelativePref ? NSControl.StateValue.on : NSControl.StateValue.off
         let uploadSmallerImagesPref = Defaults[.uploadSmallerImages]
