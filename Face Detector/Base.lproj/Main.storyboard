@@ -256,9 +256,8 @@
                                             <color key="backgroundColor" name="faceLandmarksColor"/>
                                         </textFieldCell>
                                     </textField>
-                                    <stackView distribution="fillEqually" orientation="vertical" alignment="trailing" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0qh-lo-SuQ">
+                                    <stackView distribution="fillEqually" orientation="vertical" alignment="trailing" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0qh-lo-SuQ">
                                         <rect key="frame" x="697" y="71" width="74" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9ew-Hk-F1k">
                                                 <rect key="frame" x="0.0" y="27" width="74" height="17"/>
@@ -277,6 +276,10 @@
                                                 </textFieldCell>
                                             </textField>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="74" id="eSs-HU-2wI"/>
+                                            <constraint firstAttribute="height" constant="44" id="te8-hA-rTd"/>
+                                        </constraints>
                                         <visibilityPriorities>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
@@ -288,6 +291,8 @@
                                     </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="0qh-lo-SuQ" secondAttribute="bottom" constant="71" id="S47-sa-1C1"/>
+                                    <constraint firstAttribute="trailing" secondItem="0qh-lo-SuQ" secondAttribute="trailing" constant="29" id="TQB-iz-KVg"/>
                                     <constraint firstItem="9PT-nn-vP8" firstAttribute="centerX" secondItem="vbJ-hm-qX7" secondAttribute="centerX" id="aGL-Bk-D2V"/>
                                     <constraint firstAttribute="bottom" secondItem="IU2-Jf-oSR" secondAttribute="bottom" constant="20" id="b6Y-hv-ZVx"/>
                                     <constraint firstItem="9PT-nn-vP8" firstAttribute="top" secondItem="vbJ-hm-qX7" secondAttribute="top" constant="8" id="brs-dO-t51"/>

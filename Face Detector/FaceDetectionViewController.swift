@@ -118,11 +118,6 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         setupObservers()
     }
 
-//    func deinit() {
-//        thresholdObserver?.invalidate()
-//    }
-
-
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
@@ -716,17 +711,21 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             let faceObservation = VNFaceObservation(boundingBox: observation.boundingBox)
             faceLandmarksRequest.inputFaceObservations = [faceObservation]
 
-            // Continue to track detected facial landmarks.
-            faceLandmarkRequests.append(faceLandmarksRequest)
+            // Check the bounding box value, we were seeing some crashes occuring when the viewer moves very close to
+            // the camera & quickly.
+            if boundingBoxValid(boundingBox: observation.boundingBox) {
 
-            let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
-                                                            options: requestHandlerOptions)
+                // Continue to track detected facial landmarks.
+                faceLandmarkRequests.append(faceLandmarksRequest)
 
-            do {
-                try imageRequestHandler.perform(faceLandmarkRequests)
-            } catch let error as NSError {
-                NSLog("Failed to perform FaceLandmarkRequest: %@", error)
-                self.faceDetected = false
+                let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: requestHandlerOptions)
+
+                do {
+                    try imageRequestHandler.perform(faceLandmarkRequests)
+                } catch let error as NSError {
+                    NSLog("Failed to perform FaceLandmarkRequest: %@", error)
+                    self.faceDetected = false
+                }
             }
         }
     }
@@ -754,21 +753,19 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
     func convertAndUploadImage(sourceImage: NSImage) {
+        var imageToUpload: NSImage? = sourceImage
+
         if uploadSmallerImages {
             let reducedSize = CGSize(width: 0.25 * sourceImage.size.width, height: 0.25 * sourceImage.size.height)
             if let resizedImage = sourceImage.resized(to: reducedSize) {
-                if let tiff = resizedImage.tiffRepresentation,
-                    let imageRep = NSBitmapImageRep(data: tiff)  {
-                    let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
-                    uploadImageToFirebase(data: compressedData)
-                }
+                 imageToUpload = resizedImage
             }
-        } else {
-            if let tiff = sourceImage.tiffRepresentation,
-                let imageRep = NSBitmapImageRep(data: tiff)  {
-                let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
-                uploadImageToFirebase(data: compressedData)
-            }
+        }
+
+        if let tiff = imageToUpload?.tiffRepresentation,
+            let imageRep = NSBitmapImageRep(data: tiff)  {
+            let compressedData = imageRep.representation(using: .jpeg, properties: [.compressionFactor : 0.5])!
+            uploadImageToFirebase(data: compressedData)
         }
     }
 
@@ -1041,5 +1038,21 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             let condition = update.newValue ?? true
             self.uploadSmallerImages = condition
             } as? DefaultsObserver<Bool>
+    }
+
+    // This is try to mitigate some crashes that can happen when using the app
+    func boundingBoxValid(boundingBox: CGRect) -> Bool {
+
+        // If the bounding rect is too close to the screen edge ignore it.
+        if boundingBox.origin.x < 0 || boundingBox.origin.y < 0 {
+            print("invalid rect? \(boundingBox)")
+            return false
+        }
+
+        // If the bounding box is close to filling up the camera view, ignore it.
+
+
+
+        return true
     }
 }
