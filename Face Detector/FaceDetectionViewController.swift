@@ -64,8 +64,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var uploadSmallerImages = false
     var strokeLineWidth: CGFloat = 2.0
     var confidenceThreshold: VNConfidence = 0.5
-
     var uploadTimePeriod = 10.0
+    var uploadQueued = false
 
     // for debugging
     var prevScaleX: CGFloat = 0.0
@@ -825,10 +825,13 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         timeToUploadImage = false
 
         // do another image upload in n seconds
-        if uploadDetectedFaces {
+        if uploadDetectedFaces  && !uploadQueued {
+            uploadQueued = true
             // TODO: this does not working properly (critical priority)
+            // Introduced a boolean to constrain uploading, it needs a code review!
             DispatchQueue.main.asyncAfter(deadline: .now() + uploadTimePeriod) {
                 self.timeToUploadImage = true
+                self.uploadQueued = false
                 print("next upload in \(self.uploadTimePeriod) seconds")
             }
         }
