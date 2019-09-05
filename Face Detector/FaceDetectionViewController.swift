@@ -233,7 +233,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             do {
                 try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice!))
 
-                // TODO: is this a good way to get the resolution? (low priority)
+                // TODO: is this a good way to get the resolution? (medium priority)
                 let resolution = getCaptureResolution(device: captureDevice!)
                 self.configureVideoDataOutput(for: captureDevice!, resolution: resolution , captureSession: captureSession)
                 self.designatePreviewLayer(for: captureSession)
@@ -788,17 +788,13 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             }
 
             let combinedImage = NSImage(size: videoImage.size)
-
             // Draw the images into a new image!
             combinedImage.lockFocus()
             let rect = CGRect(origin: CGPoint.zero, size: videoImage.size)
-
             // draw the video frame
             videoImage.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
-
             // draw the overlays
             resizedOverlayImage.draw(at: CGPoint.zero, from: rect, operation: .sourceOver, fraction: 1.0)
-
             combinedImage.unlockFocus()
             image = combinedImage
         } else {
@@ -837,7 +833,6 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             }
         }
     }
-
 
     func getImageFromSampleBuffer(sampleBuffer: CMSampleBuffer) ->NSImage? {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
@@ -1012,10 +1007,15 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
     func setupObservers() {
-        // TODO: this does not result in the stroke width changing. (high priority)
+        // TODO: needs more testing! (medium priority)
         strokeWidthObserver = Defaults.observe(key: DefaultsKeys.strokeWidth ) { update in
             let newWidth = CGFloat(update.newValue ?? 2.0)
             self.strokeLineWidth = newWidth
+            // TODO: Can this be done without restarting the AV session (high priority)
+            self.teardownAVCapture()
+            self.session = self.setupAVCaptureSession()
+            self.prepareVisionRequest()
+            self.session?.startRunning()
         } as? DefaultsObserver<Double>
 
         timePeriodObsever = Defaults.observe(key: DefaultsKeys.uploadTimePeriod) { update in
