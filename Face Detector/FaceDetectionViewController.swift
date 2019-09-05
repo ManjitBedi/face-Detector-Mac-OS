@@ -233,7 +233,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             do {
                 try captureSession.addInput(AVCaptureDeviceInput(device: captureDevice!))
 
-                // TODO: is this a good way to get the resolution?
+                // TODO: is this a good way to get the resolution? (low priority)
                 let resolution = getCaptureResolution(device: captureDevice!)
                 self.configureVideoDataOutput(for: captureDevice!, resolution: resolution , captureSession: captureSession)
                 self.designatePreviewLayer(for: captureSession)
@@ -309,7 +309,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         videoDataOutput.connection(with: .video)?.isEnabled = true
 
-        // TODO: fixme?
+        // TODO: fixme? (low priority)
         // iOS specific code,  is there an equivalent for Mac OS?
 //        if let captureConnection = videoDataOutput.connection(with: AVMediaType.video) {
 //            if captureConnection.isCameraIntrinsicMatrixDeliverySupported {
@@ -830,7 +830,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         // do another image upload in n seconds
         if uploadDetectedFaces {
-            // TODO: this does not working properly
+            // TODO: this does not working properly (critical priority)
             DispatchQueue.main.asyncAfter(deadline: .now() + uploadTimePeriod) {
                 self.timeToUploadImage = true
                 print("next upload in \(self.uploadTimePeriod) seconds")
@@ -979,7 +979,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                 }
             }
         } catch let err as NSError {
-            // TODO: do something with Error
+            // TODO: do something with Error (low priority)
             print(err)
         }
     }
@@ -1012,7 +1012,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
     func setupObservers() {
-        // TODO: this does not result in the stroke width changing.
+        // TODO: this does not result in the stroke width changing. (high priority)
         strokeWidthObserver = Defaults.observe(key: DefaultsKeys.strokeWidth ) { update in
             let newWidth = CGFloat(update.newValue ?? 2.0)
             self.strokeLineWidth = newWidth
