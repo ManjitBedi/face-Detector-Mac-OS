@@ -828,7 +828,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         timeToUploadImage = false
 
-        // do another image upload in 5 seconds
+        // do another image upload in n seconds
         if uploadDetectedFaces {
             // TODO: this does not working properly
             DispatchQueue.main.asyncAfter(deadline: .now() + uploadTimePeriod) {
