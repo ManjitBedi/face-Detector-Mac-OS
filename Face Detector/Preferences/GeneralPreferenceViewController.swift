@@ -39,13 +39,18 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
         useRelativePositionButton.state = displayRelativePref ? NSControl.StateValue.on : NSControl.StateValue.off
         let uploadSmallerImagesPref = Defaults[.uploadSmallerImages]
         uploadSmallerImagesButton.state = uploadSmallerImagesPref ? NSControl.StateValue.on : NSControl.StateValue.off
+        let timePeriod = Float(Defaults[.uploadTimePeriod])
+        uploadPeriodSlider.floatValue = timePeriod
+        uploadPeriodLabel.stringValue = String(format: "%.01f", timePeriod)
+        let threshold = Float(Defaults[.trackingConfidenceThreshold])
+        confidenceThresholdSlider.floatValue = threshold
+        confidenceThresholdLabel.stringValue = String(format: "%.01f", threshold)
 	}
 
     @IBAction func updatePrefs(_ sender: NSButton) {
         let showPrefsPane = Bool(truncating: NSNumber(value: sender.state.rawValue))
         Defaults[.showPrefsPane] = showPrefsPane
     }
-
 
     @IBAction func updateStrokeThickness(_ sender: Any) {
         var lineWidth: Float = 1.0
