@@ -3,6 +3,7 @@ import AVFoundation
 import AVKit
 
 import Preferences
+import SwiftyUserDefaults
 
 final class VideoCameraPreferenceViewController: NSViewController, PreferencePane, NSTableViewDelegate, NSTableViewDataSource {
 	let preferencePaneIdentifier = PreferencePane.Identifier.video
@@ -67,8 +68,7 @@ final class VideoCameraPreferenceViewController: NSViewController, PreferencePan
     }
 
     func savePreference(deviceName: String) {
-        let defaults = UserDefaults.standard
-        defaults.set(deviceName, forKey: Constants.DeviceNamePref)
+        Defaults[.deviceName] = deviceName
         NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.ChangeDeviceNotification), object: nil)
     }
 }

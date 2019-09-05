@@ -256,6 +256,36 @@
                                             <color key="backgroundColor" name="faceLandmarksColor"/>
                                         </textFieldCell>
                                     </textField>
+                                    <stackView distribution="fillEqually" orientation="vertical" alignment="trailing" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0qh-lo-SuQ">
+                                        <rect key="frame" x="697" y="71" width="74" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9ew-Hk-F1k">
+                                                <rect key="frame" x="0.0" y="27" width="74" height="17"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Confidence" drawsBackground="YES" id="7T0-VD-nEp">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="selectedMenuItemTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="faceLandmarksColor"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="arl-94-4sH">
+                                                <rect key="frame" x="37" y="0.0" width="37" height="27"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="0.0" drawsBackground="YES" id="aKZ-bV-0wC">
+                                                    <font key="font" metaFont="system" size="22"/>
+                                                    <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" name="faceLandmarksColor"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="9PT-nn-vP8" firstAttribute="centerX" secondItem="vbJ-hm-qX7" secondAttribute="centerX" id="aGL-Bk-D2V"/>
@@ -275,8 +305,10 @@
                     <connections>
                         <outlet property="buttonsView" destination="9PT-nn-vP8" id="lv7-7z-jum"/>
                         <outlet property="cameraView" destination="vbJ-hm-qX7" id="alj-cl-exT"/>
+                        <outlet property="confidenceStackView" destination="0qh-lo-SuQ" id="Akb-k0-T9z"/>
                         <outlet property="resultTextField" destination="IU2-Jf-oSR" id="QnL-2f-sYb"/>
                         <outlet property="toggleUploadsButton" destination="JYF-oN-0zn" id="8SR-Hz-kTT"/>
+                        <outlet property="trackedFaceConfidenceLabel" destination="arl-94-4sH" id="wdP-RO-Dcu"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

@@ -9,21 +9,27 @@
 import Cocoa
 import FirebaseCore
 import Preferences
+import SwiftyUserDefaults
+
+extension DefaultsKeys {
+    static let deviceName = DefaultsKey<String?>("deviceName")
+    static let showPrefsPane = DefaultsKey<Bool>("showPrefsPane", defaultValue: true)
+    static let strokeWidth = DefaultsKey<Double>("strokeWidth", defaultValue: 2.0)
+    static let uploadSmallerImages = DefaultsKey<Bool>("uploadSmallerImages", defaultValue: true)
+    static let compositeOverlays = DefaultsKey<Bool>("compositeOverlays", defaultValue: true)
+    static let uploadTimePeriod = DefaultsKey<Double>("uploadTimePeriod", defaultValue: 5.0)
+    static let trackingConfidenceThreshold = DefaultsKey<Double>("TrackingConfidenceThreshold", defaultValue: 0.5)
+    static let annotationPositionRelative = DefaultsKey<Bool>("annotationPositionRelative", defaultValue: false)
+}
 
 extension PreferencePane.Identifier {
     static let general = Identifier("general")
     static let video = Identifier("video")
 }
 
+
 struct Constants {
-    static let DeviceNamePref = "com.noorg.deviceName"
     static let ChangeDeviceNotification = "com.noorg.changeDevice"
-    static let ShowPrefsAtStartPref = "com.noorg.showPrefsAtStart"
-    static let OverlayLineWidthPref = "com.noorg.overlayLineWidth"
-    static let AnnotationPositionRelativePref = "com.noorg.positionRelative"
-    static let UploadSmallerImagesPref = "com.noorg.uploadSmaller"
-    static let UploadTimePeriodPref = "com.noorg.uploadPeriod"
-    static let TrackingConfidencePref = "com.noorg.trackingConfidence"
 }
 
 @NSApplicationMain
@@ -36,10 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
 
-        configurePreferences()
-
-        let defaults = UserDefaults.standard
-        let showPrefs = defaults.bool(forKey: Constants.ShowPrefsAtStartPref)
+        let showPrefs = Defaults[.showPrefsPane]
         if showPrefs {
             preferencesWindowController.show(preferencePane: .video)
         }
@@ -66,17 +69,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction private func preferencesMenuItemActionHandler(_ sender: NSMenuItem) {
         preferencesWindowController.show()
-    }
-
-    func configurePreferences() {
-        UserDefaults.standard.register(defaults: [
-            Constants.ShowPrefsAtStartPref: true,
-            Constants.OverlayLineWidthPref: 1.0,
-            Constants.AnnotationPositionRelativePref: false,
-            Constants.UploadSmallerImagesPref: false,
-            Constants.UploadTimePeriodPref: 10.0,
-            Constants.TrackingConfidencePref: 0.5
-            ])
     }
 }
 

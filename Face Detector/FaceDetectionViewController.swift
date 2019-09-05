@@ -16,7 +16,7 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
 import FirebaseStorage
-
+import SwiftyUserDefaults
 
 
 class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -32,6 +32,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var confidenceStackView: NSStackView!
+
+    @IBOutlet weak var trackedFaceConfidenceLabel: NSTextField!
 
     // AVCapture variables to hold sequence data
     var session: AVCaptureSession?
@@ -57,8 +61,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var saveImage = false
     var faceDetected = false
     var faceAnalyzed = false
-    var uploadSmallerImagesPref = false
-
+    var uploadSmallerImages = false
+    var strokeLineWidth: CGFloat = 2.0
     var confidenceThreshold: VNConfidence = 0.5
 
     var uploadTimePeriod = 10.0
@@ -86,6 +90,12 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     lazy var sequenceRequestHandler = VNSequenceRequestHandler()
 
+    var thresholdObserver: DefaultsObserver<Double>?
+    var strokeWidthObserver: DefaultsObserver<Double>?
+    var timePeriodObsever: DefaultsObserver<Double>?
+    var compositOverlayObsever: DefaultsObserver<Bool>?
+    var uploadSmallerImagesObsever: DefaultsObserver<Bool>?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -97,17 +107,21 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         self.prepareVisionRequest()
         self.session?.startRunning()
 
+        compositeOverlays = Defaults[.compositeOverlays]
+        confidenceThreshold = VNConfidence(Defaults[.trackingConfidenceThreshold])
+        uploadTimePeriod = Defaults[.uploadTimePeriod]
+        uploadSmallerImages = Defaults[.uploadSmallerImages]
+        strokeLineWidth = CGFloat(Defaults[.strokeWidth])
+
         appTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
 
-        #if NOT_YET
-        let defaults = UserDefaults.standard
-        uploadSmallerImagesPref = defaults.bool(forKey: Constants.UploadSmallerImagesPref)
-        #endif
+        setupObservers()
     }
 
-    override func viewDidAppear() {
-        print("\(#function)")
-    }
+//    func deinit() {
+//        thresholdObserver?.invalidate()
+//    }
+
 
     override var representedObject: Any? {
         didSet {
@@ -168,7 +182,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
     @IBAction func toogleUIButtons(_ sender: NSMenuItem) {
         sender.state = sender.state == NSControl.StateValue.on ? NSControl.StateValue.off : NSControl.StateValue.on
-        buttonsView.isHidden = !Bool(truncating: NSNumber(value: sender.state.rawValue))
+        let hideControls = !Bool(truncating: NSNumber(value: sender.state.rawValue))
+        buttonsView.isHidden = hideControls
+        confidenceStackView.isHidden = hideControls
+
     }
 
     @IBAction func saveDocument(_ sender: NSMenuItem) {
@@ -402,9 +419,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     /// Changing the device will result in this method being called again.
     fileprivate func setupVisionDrawingLayers() {
 
-        guard let lineWidth = getLineWidthPreference() else {
-            return
-        }
+        let lineWidth = strokeLineWidth
 
         let captureDeviceResolution = self.captureDeviceResolution
 
@@ -633,6 +648,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
             if !trackingRequest.isLastFrame {
                 if observation.confidence > confidenceThreshold {
+                    DispatchQueue.main.async {
+                        self.trackedFaceConfidenceLabel.stringValue = String(observation.confidence)
+                    }
                     trackingRequest.inputObservation = observation
                 } else {
                     trackingRequest.isLastFrame = true
@@ -735,7 +753,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
     func convertAndUploadImage(sourceImage: NSImage) {
-        if uploadSmallerImagesPref {
+        if uploadSmallerImages {
             let reducedSize = CGSize(width: 0.25 * sourceImage.size.width, height: 0.25 * sourceImage.size.height)
             if let resizedImage = sourceImage.resized(to: reducedSize) {
                 if let tiff = resizedImage.tiffRepresentation,
@@ -787,7 +805,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             image = videoImage
         }
 
-        if uploadSmallerImagesPref {
+        if uploadSmallerImages {
             let reducedSize = CGSize(width: 0.25 * image.size.width, height: 0.25 * image.size.height)
             if let resizedImage = image.resized(to: reducedSize) {
                image = resizedImage
@@ -812,8 +830,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         // do another image upload in 5 seconds
         if uploadDetectedFaces {
+            // TODO: this does not working properly
             DispatchQueue.main.asyncAfter(deadline: .now() + uploadTimePeriod) {
                 self.timeToUploadImage = true
+                print("next upload in \(self.uploadTimePeriod) seconds")
             }
         }
     }
@@ -916,8 +936,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
     func getDevicePreference() -> String? {
-        let defaults = UserDefaults.standard
-        return defaults.string(forKey: Constants.DeviceNamePref)
+        return Defaults[.deviceName]
     }
 
     @objc func changeCameraDevice() {
@@ -985,13 +1004,38 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     }
 
     func getLineWidthPreference() -> Float? {
-        let defaults = UserDefaults.standard
-        var value = defaults.float(forKey: Constants.OverlayLineWidthPref)
-
+        var value = Float(Defaults[.strokeWidth])
         if value == 0 {
             value = 1
         }
-
         return value
+    }
+
+    func setupObservers() {
+        // TODO: this does not result in the stroke width changing.
+        strokeWidthObserver = Defaults.observe(key: DefaultsKeys.strokeWidth ) { update in
+            let newWidth = CGFloat(update.newValue ?? 2.0)
+            self.strokeLineWidth = newWidth
+        } as? DefaultsObserver<Double>
+
+        timePeriodObsever = Defaults.observe(key: DefaultsKeys.uploadTimePeriod) { update in
+            let time = update.newValue ?? 5.0
+            self.uploadTimePeriod = time
+        } as? DefaultsObserver<Double>
+
+        thresholdObserver = Defaults.observe(key: DefaultsKeys.trackingConfidenceThreshold) { update in
+            let threshold = Float(update.newValue ?? 0.5)
+            self.confidenceThreshold = VNConfidence(threshold)
+        } as? DefaultsObserver<Double>
+
+        compositOverlayObsever = Defaults.observe(key: DefaultsKeys.compositeOverlays) { update in
+            let condition = update.newValue ?? true
+            self.compositeOverlays = condition
+        } as? DefaultsObserver<Bool>
+
+        uploadSmallerImagesObsever = Defaults.observe(key: DefaultsKeys.uploadSmallerImages) { update in
+            let condition = update.newValue ?? true
+            self.uploadSmallerImages = condition
+            } as? DefaultsObserver<Bool>
     }
 }

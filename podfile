@@ -12,5 +12,7 @@ target 'Face Detector' do
     # quickly add preferences to a MacOS app
     pod 'Preferences'
 
+    pod 'SwiftyUserDefaults', '~> 4.0'
+
     pod 'Defaults'
 end
