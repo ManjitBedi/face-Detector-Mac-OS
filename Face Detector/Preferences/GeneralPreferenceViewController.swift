@@ -21,7 +21,7 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
     @IBOutlet weak var uploadPeriodLabel: NSTextField!
 
     @IBOutlet weak var hideOverlayWhenNoFacesDetectedButton: NSButton!
-
+    @IBOutlet weak var compositeOverlaysIntoUploadsButton: NSButton!
 
     let preferencePaneIdentifier = PreferencePane.Identifier.general
 	let preferencePaneTitle = "General"
@@ -34,7 +34,6 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		// Setup stuff here
         let showPrefs = Defaults[.showPrefsPane]
         showPrefsButton.state = showPrefs ? NSControl.StateValue.on : NSControl.StateValue.off
         let strokeWidth = Float(Defaults[.strokeWidth])
@@ -50,6 +49,8 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
         let threshold = Float(Defaults[.trackingConfidenceThreshold])
         confidenceThresholdSlider.floatValue = threshold
         confidenceThresholdLabel.stringValue = String(format: "%.01f", threshold)
+        let composite = Defaults[.compositeOverlays]
+        compositeOverlaysIntoUploadsButton.state = composite ? NSControl.StateValue.on : NSControl.StateValue.off
 	}
 
     @IBAction func updatePrefs(_ sender: NSButton) {
@@ -90,5 +91,11 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
     @IBAction func updateHideOverlayAction(_ sender: NSButton) {
         let hideOverlaysWhenNoFaces = Bool(truncating: NSNumber(value: sender.state.rawValue))
         Defaults[.hideOverlayWhenNoFacesDetected] = hideOverlaysWhenNoFaces
+    }
+
+
+    @IBAction func updateCompositeOverlaysAction(_ sender: NSButton) {
+        let compositeOverlays = Bool(truncating: NSNumber(value: sender.state.rawValue))
+        Defaults[.compositeOverlays] = compositeOverlays
     }
 }

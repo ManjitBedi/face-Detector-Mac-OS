@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GeneralPreferenceViewController" customModule="Face_Detector" customModuleProvider="target">
             <connections>
+                <outlet property="compositeOverlaysIntoUploadsButton" destination="qj6-Kf-D2O" id="mzE-G6-amR"/>
                 <outlet property="confidenceThresholdLabel" destination="Dpa-Qb-OyQ" id="fN1-Rn-YPW"/>
                 <outlet property="confidenceThresholdSlider" destination="um4-eK-aXz" id="FA5-xd-UJp"/>
                 <outlet property="hideOverlayWhenNoFacesDetectedButton" destination="yxq-T6-AWj" id="Jsm-SD-NVc"/>
@@ -37,17 +38,20 @@
                     </connections>
                 </button>
                 <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EhW-vO-2I5">
-                    <rect key="frame" x="13" y="60" width="267" height="92"/>
+                    <rect key="frame" x="13" y="86" width="216" height="66"/>
                     <subviews>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qj6-Kf-D2O">
-                            <rect key="frame" x="-2" y="76" width="219" height="18"/>
+                            <rect key="frame" x="-2" y="50" width="219" height="18"/>
                             <buttonCell key="cell" type="check" title="Composite overlays into uploads" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="CgA-14-PYg">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
+                            <connections>
+                                <action selector="updateCompositeOverlaysAction:" target="-2" id="XQC-vn-E9F"/>
+                            </connections>
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i85-cK-b9f">
-                            <rect key="frame" x="-2" y="50" width="162" height="18"/>
+                            <rect key="frame" x="-2" y="24" width="162" height="18"/>
                             <buttonCell key="cell" type="check" title="Upload Smaller Images" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="X13-Oa-JVp">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -57,7 +61,7 @@
                             </connections>
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yxq-T6-AWj">
-                            <rect key="frame" x="-2" y="24" width="220" height="18"/>
+                            <rect key="frame" x="-2" y="-2" width="220" height="18"/>
                             <buttonCell key="cell" type="check" title="Hide overlay when no detections" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZLA-vc-VGf">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -66,8 +70,8 @@
                                 <action selector="updateHideOverlayAction:" target="-2" id="wbQ-pX-RAv"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iyJ-DF-Z8q">
-                            <rect key="frame" x="-2" y="-2" width="271" height="18"/>
+                        <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iyJ-DF-Z8q">
+                            <rect key="frame" x="-2" y="50" width="271" height="18"/>
                             <buttonCell key="cell" type="check" title="Anchor annotation to face (experimental)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="wIS-ee-GKq">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
