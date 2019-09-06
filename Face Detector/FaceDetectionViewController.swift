@@ -590,6 +590,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         CATransaction.commit()
     }
 
+
+    static var frameCount = 0
+
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
     /// - Tag: PerformRequests
     // Handle delegate method callback on receiving a sample buffer.
@@ -673,6 +676,13 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
 
         // Perform landmark detection on tracked faces.
         for trackingRequest in newTrackingRequests {
+
+            let reacquireAtFrame = 15 * 25 // assuming 25 frames per second
+            // reacquire face every so often
+            FaceDetectionViewController.frameCount += 1
+            if (FaceDetectionViewController.frameCount % reacquireAtFrame == 0 ) {
+                trackingRequest.isLastFrame = true
+            }
 
             let faceLandmarksRequest = VNDetectFaceLandmarksRequest(completionHandler: { (request, error) in
 
