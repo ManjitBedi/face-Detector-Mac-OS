@@ -1049,9 +1049,13 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             return false
         }
 
-        // If the bounding box is close to filling up the camera view, ignore it.
-
-
+//        // If the bounding box is close to filling up the camera view, ignore it.
+//        let diffX = abs(boundingBox.size.width - view.frame.size.width)
+//        let diffY = abs(boundingBox.size.height - view.frame.size.height)
+//
+//        if diffX < 40 || diffY < 40 {
+//            return false
+//        }
 
         return true
     }

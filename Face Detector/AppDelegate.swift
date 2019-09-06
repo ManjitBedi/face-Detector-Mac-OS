@@ -20,6 +20,7 @@ extension DefaultsKeys {
     static let uploadTimePeriod = DefaultsKey<Double>("uploadTimePeriod", defaultValue: 5.0)
     static let trackingConfidenceThreshold = DefaultsKey<Double>("TrackingConfidenceThreshold", defaultValue: 0.5)
     static let annotationPositionRelative = DefaultsKey<Bool>("annotationPositionRelative", defaultValue: false)
+    static let hideOverlayWhenNoFacesDetected = DefaultsKey<Bool>("hideOverlayWhenNoFacesDetected", defaultValue: false)
 }
 
 extension PreferencePane.Identifier {

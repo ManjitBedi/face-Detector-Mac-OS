@@ -35,18 +35,18 @@
                     </connections>
                 </button>
                 <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EhW-vO-2I5">
-                    <rect key="frame" x="13" y="62" width="267" height="66"/>
+                    <rect key="frame" x="13" y="60" width="267" height="92"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qj6-Kf-D2O">
-                            <rect key="frame" x="-2" y="50" width="219" height="18"/>
+                            <rect key="frame" x="-2" y="76" width="219" height="18"/>
                             <buttonCell key="cell" type="check" title="Composite overlays into uploads" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="CgA-14-PYg">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i85-cK-b9f">
-                            <rect key="frame" x="-2" y="24" width="162" height="18"/>
+                            <rect key="frame" x="-2" y="50" width="162" height="18"/>
                             <buttonCell key="cell" type="check" title="Upload Smaller Images" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="X13-Oa-JVp">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -54,6 +54,13 @@
                             <connections>
                                 <action selector="updateUploadSmallerImagesPref:" target="-2" id="L38-Vk-tF8"/>
                             </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yxq-T6-AWj">
+                            <rect key="frame" x="-2" y="24" width="220" height="18"/>
+                            <buttonCell key="cell" type="check" title="Hide overlay when no detections" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZLA-vc-VGf">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iyJ-DF-Z8q">
                             <rect key="frame" x="-2" y="-2" width="271" height="18"/>
@@ -70,8 +77,10 @@
                         <integer value="1000"/>
                         <integer value="1000"/>
                         <integer value="1000"/>
+                        <integer value="1000"/>
                     </visibilityPriorities>
                     <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
