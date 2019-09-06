@@ -37,7 +37,6 @@ final class VideoCameraPreferenceViewController: NSViewController, PreferencePan
         for device in devices {
             // Camera object found and assign it to captureDevice
             if ((device as AnyObject).hasMediaType(AVMediaType.video)) {
-                print(device)
                 deviceNames.append(device.localizedName)
             }
         }
