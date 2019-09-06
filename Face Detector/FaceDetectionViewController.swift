@@ -643,10 +643,12 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             }
 
             if !trackingRequest.isLastFrame {
+                DispatchQueue.main.async {
+                    self.trackedFaceConfidenceLabel.stringValue = String(observation.confidence)
+                }
+                
                 if observation.confidence > confidenceThreshold {
-                    DispatchQueue.main.async {
-                        self.trackedFaceConfidenceLabel.stringValue = String(observation.confidence)
-                    }
+
                     trackingRequest.inputObservation = observation
                 } else {
                     trackingRequest.isLastFrame = true

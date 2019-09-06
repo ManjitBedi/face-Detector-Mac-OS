@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14865.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14865.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -35,18 +36,17 @@
                     </connections>
                 </button>
                 <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EhW-vO-2I5">
-                    <rect key="frame" x="13" y="60" width="267" height="92"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="13" y="86" width="267" height="66"/>
                     <subviews>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qj6-Kf-D2O">
-                            <rect key="frame" x="-2" y="76" width="219" height="18"/>
+                            <rect key="frame" x="-2" y="50" width="219" height="18"/>
                             <buttonCell key="cell" type="check" title="Composite overlays into uploads" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="CgA-14-PYg">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i85-cK-b9f">
-                            <rect key="frame" x="-2" y="50" width="162" height="18"/>
+                            <rect key="frame" x="-2" y="24" width="162" height="18"/>
                             <buttonCell key="cell" type="check" title="Upload Smaller Images" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="X13-Oa-JVp">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -55,8 +55,8 @@
                                 <action selector="updateUploadSmallerImagesPref:" target="-2" id="L38-Vk-tF8"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yxq-T6-AWj">
-                            <rect key="frame" x="-2" y="24" width="220" height="18"/>
+                        <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yxq-T6-AWj">
+                            <rect key="frame" x="-2" y="50" width="220" height="18"/>
                             <buttonCell key="cell" type="check" title="Hide overlay when no detections" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZLA-vc-VGf">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -94,8 +94,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="7" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mFZ-1O-KFa">
-                                <rect key="frame" x="20" y="20" width="139" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="20" y="21" width="139" height="16"/>
                                 <subviews>
                                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="um4-eK-aXz">
                                         <rect key="frame" x="-2" y="-1" width="96" height="19"/>
@@ -108,7 +107,7 @@
                                         </connections>
                                     </slider>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dpa-Qb-OyQ">
-                                        <rect key="frame" x="97" y="0.0" width="44" height="17"/>
+                                        <rect key="frame" x="97" y="0.0" width="44" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="mYt-ou-D6n"/>
                                         </constraints>
@@ -139,11 +138,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="11" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3BG-Id-g78">
-                                <rect key="frame" x="20" y="20" width="143" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="20" y="21" width="143" height="16"/>
                                 <subviews>
                                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iX8-eh-zi3">
-                                        <rect key="frame" x="-2" y="0.0" width="96" height="19"/>
+                                        <rect key="frame" x="-2" y="-1" width="96" height="19"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="92" id="EyS-Le-pOT"/>
                                         </constraints>
@@ -153,7 +151,7 @@
                                         </connections>
                                     </slider>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EJl-ct-btm">
-                                        <rect key="frame" x="101" y="0.0" width="44" height="17"/>
+                                        <rect key="frame" x="101" y="0.0" width="44" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="rM8-u7-x19"/>
                                         </constraints>
@@ -184,11 +182,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YSU-OI-Blo">
-                                <rect key="frame" x="43" y="45" width="154" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="43" y="46" width="154" height="16"/>
                                 <subviews>
                                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Mx-bT-9lN">
-                                        <rect key="frame" x="-2" y="0.0" width="96" height="19"/>
+                                        <rect key="frame" x="-2" y="-1" width="96" height="19"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="92" id="jAz-iz-aic"/>
                                         </constraints>
@@ -198,7 +195,7 @@
                                         </connections>
                                     </slider>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="smc-Oo-Okq">
-                                        <rect key="frame" x="102" y="0.0" width="54" height="17"/>
+                                        <rect key="frame" x="102" y="0.0" width="54" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="rOw-Hf-NLa"/>
                                         </constraints>

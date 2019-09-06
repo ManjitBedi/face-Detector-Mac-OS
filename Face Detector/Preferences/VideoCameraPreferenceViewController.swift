@@ -34,7 +34,6 @@ final class VideoCameraPreferenceViewController: NSViewController, PreferencePan
         let devices = AVCaptureDevice.devices()
 
         // There can be more devices then devices that support video
-        print("number of detected AV devices \(devices.count)")
         for device in devices {
             // Camera object found and assign it to captureDevice
             if ((device as AnyObject).hasMediaType(AVMediaType.video)) {
