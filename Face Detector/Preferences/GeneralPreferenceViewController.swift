@@ -20,6 +20,9 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
     @IBOutlet weak var uploadPeriodSlider: NSSlider!
     @IBOutlet weak var uploadPeriodLabel: NSTextField!
 
+    @IBOutlet weak var hideOverlayWhenNoFacesDetectedButton: NSButton!
+
+
     let preferencePaneIdentifier = PreferencePane.Identifier.general
 	let preferencePaneTitle = "General"
 	let toolbarItemIcon = NSImage(named: NSImage.preferencesGeneralName)!
@@ -82,5 +85,10 @@ final class GeneralPreferenceViewController: NSViewController, PreferencePane {
         let uploadPeriod = sender.floatValue
         uploadPeriodLabel.stringValue =  String(format: "%.01f", uploadPeriod)
         Defaults[.uploadTimePeriod] = Double(uploadPeriod)
+    }
+
+    @IBAction func updateHideOverlayAction(_ sender: NSButton) {
+        let hideOverlaysWhenNoFaces = Bool(truncating: NSNumber(value: sender.state.rawValue))
+        Defaults[.hideOverlayWhenNoFacesDetected] = hideOverlaysWhenNoFaces
     }
 }

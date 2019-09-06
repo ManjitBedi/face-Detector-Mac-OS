@@ -66,6 +66,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var confidenceThreshold: VNConfidence = 0.5
     var uploadTimePeriod = 10.0
     var uploadQueued = false
+    var hideDetectionOverlaysWhenNoFacesDetected = false
 
     // for debugging
     var prevScaleX: CGFloat = 0.0
@@ -95,6 +96,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var timePeriodObsever: DefaultsObserver<Double>?
     var compositOverlayObsever: DefaultsObserver<Bool>?
     var uploadSmallerImagesObsever: DefaultsObserver<Bool>?
+    var hideDetectionOverlaysObsever: DefaultsObserver<Bool>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,6 +114,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         uploadTimePeriod = Defaults[.uploadTimePeriod]
         uploadSmallerImages = Defaults[.uploadSmallerImages]
         strokeLineWidth = CGFloat(Defaults[.strokeWidth])
+        hideDetectionOverlaysWhenNoFacesDetected = Defaults[.hideOverlayWhenNoFacesDetected]
 
         appTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
 
@@ -482,6 +485,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                 return
         }
 
+        detectionOverlayLayer?.isHidden = false
+
         CATransaction.setValue(NSNumber(value: true), forKey: kCATransactionDisableActions)
 
         // iOS specific code
@@ -647,13 +652,18 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
                     self.trackedFaceConfidenceLabel.stringValue = String(observation.confidence)
                 }
                 
-                if observation.confidence > confidenceThreshold {
-
+                if observation.confidence >= confidenceThreshold {
                     trackingRequest.inputObservation = observation
                 } else {
                     trackingRequest.isLastFrame = true
                 }
                 newTrackingRequests.append(trackingRequest)
+
+                if observation.confidence < confidenceThreshold && hideDetectionOverlaysWhenNoFacesDetected {
+                    DispatchQueue.main.async {
+                        self.detectionOverlayLayer?.isHidden = true
+                    }
+                }
             }
         }
         self.trackingRequests = newTrackingRequests
@@ -998,6 +1008,9 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             resultTextField.stringValue = displayText
         } else {
             resultTextField.stringValue = ""
+            if hideDetectionOverlaysWhenNoFacesDetected {
+                self.detectionOverlayLayer?.isHidden = true
+            }
         }
     }
 
@@ -1040,6 +1053,11 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
             let condition = update.newValue ?? true
             self.uploadSmallerImages = condition
             } as? DefaultsObserver<Bool>
+
+        hideDetectionOverlaysObsever = Defaults.observe(key: DefaultsKeys.hideOverlayWhenNoFacesDetected) { update in
+            let condition = update.newValue ?? true
+            self.hideDetectionOverlaysWhenNoFacesDetected = condition
+        } as? DefaultsObserver<Bool>
     }
 
     // This is try to mitigate some crashes that can happen when using the app
