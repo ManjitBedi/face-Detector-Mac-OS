@@ -53,10 +53,6 @@
 		780BB2B42314644A004180CE /* analysis.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = analysis.txt; sourceTree = "<group>"; };
 		78318710230E0D68009D7A0A /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		78318712230E0DBA009D7A0A /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		785AD6C8230F2026001223C3 /* CrossPlatformRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossPlatformRenderer.swift; sourceTree = "<group>"; };
-		785AD6CA230F20C8001223C3 /* ImageFormatUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFormatUtility.swift; sourceTree = "<group>"; };
-		785AD6CB230F20C8001223C3 /* PushDraw.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushDraw.swift; sourceTree = "<group>"; };
-		785AD6CC230F20C8001223C3 /* CrossPlatformDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossPlatformDefines.swift; sourceTree = "<group>"; };
 		78838B38230DB466009A2BF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		78C61660230C9883009829DB /* Face Detector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Face Detector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C61663230C9883009829DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -122,17 +118,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		785AD6C7230F1FF5001223C3 /* Cross Platform */ = {
-			isa = PBXGroup;
-			children = (
-				785AD6C8230F2026001223C3 /* CrossPlatformRenderer.swift */,
-				785AD6CC230F20C8001223C3 /* CrossPlatformDefines.swift */,
-				785AD6CA230F20C8001223C3 /* ImageFormatUtility.swift */,
-				785AD6CB230F20C8001223C3 /* PushDraw.swift */,
-			);
-			path = "Cross Platform";
-			sourceTree = "<group>";
-		};
 		78C61657230C9883009829DB = {
 			isa = PBXGroup;
 			children = (
@@ -159,7 +144,6 @@
 			isa = PBXGroup;
 			children = (
 				78F4434C23115492005CCBF0 /* Preferences */,
-				785AD6C7230F1FF5001223C3 /* Cross Platform */,
 				7831870F230E0D48009D7A0A /* Extensions */,
 				78C61663230C9883009829DB /* AppDelegate.swift */,
 				78C61665230C9883009829DB /* FaceDetectionViewController.swift */,
