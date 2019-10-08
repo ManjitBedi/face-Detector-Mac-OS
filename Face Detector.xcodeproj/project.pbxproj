@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		08356EA90966DF288D174C17 /* Pods_Face_Detector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C3D39745ABC9776FF25A03 /* Pods_Face_Detector.framework */; };
 		780BB2B52314644A004180CE /* analysis.txt in Resources */ = {isa = PBXBuildFile; fileRef = 780BB2B42314644A004180CE /* analysis.txt */; };
-		780D7D65234D463900B7DED3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 780D7D64234D463900B7DED3 /* README.md */; };
 		78318711230E0D68009D7A0A /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78318710230E0D68009D7A0A /* CALayer.swift */; };
 		78318713230E0DBA009D7A0A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78318712230E0DBA009D7A0A /* Utils.swift */; };
 		78838B39230DB466009A2BF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78838B38230DB466009A2BF9 /* GoogleService-Info.plist */; };
@@ -321,7 +320,6 @@
 				78C61668230C9886009829DB /* Assets.xcassets in Resources */,
 				78F44352231159EF005CCBF0 /* VideoCameraPreferenceViewController.xib in Resources */,
 				780BB2B52314644A004180CE /* analysis.txt in Resources */,
-				780D7D65234D463900B7DED3 /* README.md in Resources */,
 				78F44353231159EF005CCBF0 /* GeneralPreferenceViewController.xib in Resources */,
 				78C6166B230C9886009829DB /* Main.storyboard in Resources */,
 				78838B39230DB466009A2BF9 /* GoogleService-Info.plist in Resources */,
