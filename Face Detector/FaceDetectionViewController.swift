@@ -78,6 +78,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     var collectionName = "faces"
     #endif
 
+    #warning("change this email address & password")
+    var emailAddress = "dev@manjitbedi.com"
+    var password = "temporary"
+
     var appTimer: Timer?
 
     private var analysisLabels = [String]()
@@ -130,6 +134,7 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
     // MARK: Actions
 
     @IBAction func loginFirebase(_ sender: Any) {
+        // Note: you only need to log-in to Firebase once
         signIn()
     }
 
@@ -879,10 +884,10 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         return image
     }
 
-    // Firebase
+    // MARK: online component  - Firebase
 
     func signIn() {
-        Auth.auth().signIn(withEmail: "info@jakelaffoley.co.uk", password: "biomexit123") { [weak self] user, error in
+        Auth.auth().signIn(withEmail: emailAddress, password: password) { [weak self] user, error in
             if self != nil {
                 print("logged into Firebase")
             }
