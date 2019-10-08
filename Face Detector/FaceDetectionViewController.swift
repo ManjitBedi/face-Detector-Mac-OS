@@ -203,7 +203,8 @@ class FaceDetectionViewController: NSViewController, AVCaptureVideoDataOutputSam
         let captureSession = AVCaptureSession()
         captureSession.sessionPreset = AVCaptureSession.Preset.low
 
-        let devices = AVCaptureDevice.devices()
+
+        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .externalUnknown], mediaType: AVMediaType.video, position: .unspecified).devices
 
         // Get the user preference for the camera if set
         let deviceName = getDevicePreference()

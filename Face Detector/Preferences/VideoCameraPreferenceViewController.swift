@@ -30,8 +30,8 @@ final class VideoCameraPreferenceViewController: NSViewController, PreferencePan
 	}
 
     func getVideoCameraDeviceNames() {
-        // Get all audio and video devices on this machine
-        let devices = AVCaptureDevice.devices()
+        // Get all video devices on this machine
+        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .externalUnknown], mediaType: AVMediaType.video, position: .unspecified).devices
 
         // There can be more devices then devices that support video
         for device in devices {
