@@ -2,7 +2,13 @@ The code is hacked from an iOS sample code from Apple with support added to uplo
 
 [Tracking the User’s Face in Real Time](https://developer.apple.com/documentation/vision/tracking_the_user_s_face_in_real_time)
 
-The Firebase support is achieved using  community Firebase code & Cocoapods.
+The Firebase support is achieved using  community Firebase code & Cocoapods.   
+
+To upload images to Firebase, you will need to:
+
+- create a project in Firebase 
+- configure the project & download the GoogleService-Info.plist & replace the existing plist
+- set the email address & password in the modulde FaceDetectorViewController.swift
 
 The code was orginally intended to be used in an art installation piece but the app was crashing in the Vision Framework - it went pear shaped for various reasons.  The code was hacked to work around the crash issue but this changed the desired behaviour of the app.  
 
